@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(nest new:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 10 npm run start:dev)",
+      "Bash(curl:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(timeout 10s npm run start:dev)",
+      "Bash(docker-compose:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx prisma db seed:*)",
+      "Bash(taskkill:*)",
+      "Bash(powershell:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

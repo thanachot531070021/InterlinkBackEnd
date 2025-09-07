@@ -1,0 +1,457 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User management
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      UserRole
+  storeId   String?  @map("store_id")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  store Store? @relation(fields: [storeId], references: [id])
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  STORE_ADMIN
+  STORE_STAFF
+  SALE
+  CUSTOMER_GUEST
+
+  @@map("user_role")
+}
+
+// Store management
+model Store {
+  id               String            @id @default(uuid())
+  name             String
+  slug             String            @unique
+  description      String?
+  email            String
+  phone            String?
+  address          Json?
+  logo             String?
+  status           StoreStatus       @default(ACTIVE)
+  subscriptionStatus SubscriptionStatus @default(TRIAL) @map("subscription_status")
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+
+  // Relations
+  users            User[]
+  entitlements     StoreBrandEntitlement[]
+  productPermissions StoreProductPermission[]
+  stocks           StoreStock[]
+  orders           Order[]
+  subscriptions    Subscription[]
+  productSubmissions ProductApprovalQueue[]
+
+  @@map("stores")
+}
+
+enum StoreStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+
+  @@map("store_status")
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  EXPIRED
+  CANCELLED
+
+  @@map("subscription_status")
+}
+
+// Brand management
+model Brand {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  logo        String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  products    Product[]
+  entitlements StoreBrandEntitlement[]
+  productPermissions StoreProductPermission[]
+  productSubmissions ProductApprovalQueue[]
+
+  @@map("brands")
+}
+
+// Store-Brand permissions
+model StoreBrandEntitlement {
+  id           String    @id @default(uuid())
+  storeId      String    @map("store_id")
+  brandId      String    @map("brand_id")
+  pricingMode  PricingMode @default(CENTRAL) @map("pricing_mode")
+  effectiveFrom DateTime @default(now()) @map("effective_from")
+  effectiveTo  DateTime? @map("effective_to")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  store Store @relation(fields: [storeId], references: [id])
+  brand Brand @relation(fields: [brandId], references: [id])
+
+  @@unique([storeId, brandId])
+  @@map("store_brand_entitlements")
+}
+
+enum PricingMode {
+  CENTRAL
+  STORE
+
+  @@map("pricing_mode")
+}
+
+// 🆕 Store Product Creation Permissions
+model StoreProductPermission {
+  id                   String    @id @default(uuid())
+  storeId              String    @map("store_id")
+  brandId              String    @map("brand_id")
+  canCreateProducts    Boolean   @default(false) @map("can_create_products")
+  requiresApproval     Boolean   @default(true) @map("requires_approval")
+  maxProductsPerMonth  Int?      @map("max_products_per_month")
+  allowedCategories    Json?     @map("allowed_categories")
+  pricingRules         Json?     @map("pricing_rules")
+  effectiveFrom        DateTime  @default(now()) @map("effective_from")
+  effectiveTo          DateTime? @map("effective_to")
+  createdBy            String    @map("created_by")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  store Store @relation(fields: [storeId], references: [id])
+  brand Brand @relation(fields: [brandId], references: [id])
+
+  @@unique([storeId, brandId])
+  @@index([storeId, effectiveFrom, effectiveTo])
+  @@map("store_product_permissions")
+}
+
+// Product management
+model Product {
+  id                String    @id @default(uuid())
+  name              String
+  slug              String    @unique
+  sku               String    @unique
+  description       String?
+  brandId           String    @map("brand_id")
+  createdByStoreId  String?   @map("created_by_store_id") // NULL = central product
+  approvalQueueId   String?   @map("approval_queue_id")   // NULL = approved/central
+  category          String
+  price             Decimal   @db.Decimal(10, 2)
+  images            Json?
+  attributes        Json?
+  status            ProductStatus @default(ACTIVE)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  brand      Brand @relation(fields: [brandId], references: [id])
+  variants   ProductVariant[]
+  stocks     StoreStock[]
+  orderItems OrderItem[]
+  reservations Reservation[]
+  approvalQueue ProductApprovalQueue? @relation(fields: [approvalQueueId], references: [id])
+
+  @@index([brandId, status])
+  @@index([createdByStoreId]) // For store-created products
+  @@map("products")
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  PENDING_APPROVAL
+  DRAFT
+
+  @@map("product_status")
+}
+
+// Product variants (colors, sizes, etc.)
+model ProductVariant {
+  id         String   @id @default(uuid())
+  productId  String   @map("product_id")
+  name       String   // e.g., "Red - Large"
+  sku        String   @unique
+  attributes Json     // e.g., {"color": "red", "size": "large"}
+  price      Decimal? @db.Decimal(10, 2) // Override product price
+  status     ProductVariantStatus @default(ACTIVE)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  product Product @relation(fields: [productId], references: [id])
+  stocks  StoreStock[]
+  orderItems OrderItem[]
+  reservations Reservation[]
+
+  @@unique([productId, sku])
+  @@map("product_variants")
+}
+
+enum ProductVariantStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("product_variant_status")
+}
+
+// 🆕 Product Approval Queue
+model ProductApprovalQueue {
+  id                  String            @id @default(uuid())
+  storeId             String            @map("store_id")
+  brandId             String            @map("brand_id")
+  productData         Json              @map("product_data") // Submitted product data
+  status              ApprovalStatus    @default(PENDING)
+  submittedBy         String            @map("submitted_by") // User ID
+  reviewedBy          String?           @map("reviewed_by")  // Admin User ID
+  rejectionReason     String?           @map("rejection_reason")
+  revisionNotes       String?           @map("revision_notes")
+  approvedProductId   String?           @map("approved_product_id")
+  submittedAt         DateTime          @default(now()) @map("submitted_at")
+  reviewedAt          DateTime?         @map("reviewed_at")
+
+  // Relations
+  store Store @relation(fields: [storeId], references: [id])
+  brand Brand @relation(fields: [brandId], references: [id])
+  products Product[] // After approval, links to created product
+
+  @@index([status, submittedAt])
+  @@index([storeId, status])
+  @@map("product_approval_queue")
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REVISION_REQUIRED
+
+  @@map("approval_status")
+}
+
+// Stock management
+model StoreStock {
+  id           String   @id @default(uuid())
+  storeId      String   @map("store_id")
+  productId    String   @map("product_id")
+  variantId    String?  @map("variant_id")
+  availableQty Int      @default(0) @map("available_qty")
+  reservedQty  Int      @default(0) @map("reserved_qty")
+  soldQty      Int      @default(0) @map("sold_qty")
+  priceCentral Decimal  @db.Decimal(10, 2) @map("price_central")
+  priceStore   Decimal? @db.Decimal(10, 2) @map("price_store")
+  lastChangedAt DateTime @default(now()) @map("last_changed_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  store    Store @relation(fields: [storeId], references: [id])
+  product  Product @relation(fields: [productId], references: [id])
+  variant  ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@unique([storeId, productId, variantId])
+  @@index([storeId, productId])
+  @@map("store_stock")
+}
+
+// Customer management
+model Customer {
+  id        String   @id @default(uuid())
+  email     String?
+  phone     String
+  name      String
+  address   Json?
+  isGuest   Boolean  @default(true) @map("is_guest")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  orders Order[]
+
+  @@map("customers")
+}
+
+// Order management
+model Order {
+  id           String      @id @default(uuid())
+  storeId      String      @map("store_id")
+  customerId   String      @map("customer_id")
+  status       OrderStatus @default(PENDING)
+  cancelReason String?     @map("cancel_reason")
+  totalAmount  Decimal     @db.Decimal(10, 2) @map("total_amount")
+  notes        String?
+  createdAt    DateTime    @default(now()) @map("created_at")
+  confirmedAt  DateTime?   @map("confirmed_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  // Relations
+  store        Store @relation(fields: [storeId], references: [id])
+  customer     Customer @relation(fields: [customerId], references: [id])
+  items        OrderItem[]
+  reservations Reservation[]
+  payments     Payment[]
+
+  @@index([storeId, status, createdAt])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+
+  @@map("order_status")
+}
+
+// Order items
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String  @map("order_id")
+  productId String  @map("product_id")
+  variantId String? @map("variant_id")
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2) @map("unit_price")
+  totalPrice Decimal @db.Decimal(10, 2) @map("total_price")
+
+  // Relations
+  order   Order @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// Stock reservations (TTL-based)
+model Reservation {
+  id        String            @id @default(uuid())
+  storeId   String            @map("store_id")
+  orderId   String            @map("order_id")
+  productId String            @map("product_id")
+  variantId String?           @map("variant_id")
+  quantity  Int
+  expiresAt DateTime          @map("expires_at")
+  status    ReservationStatus @default(ACTIVE)
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  // Relations
+  order   Order @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@index([storeId, expiresAt, status])
+  @@map("reservations")
+}
+
+enum ReservationStatus {
+  ACTIVE
+  RELEASED
+  APPLIED
+
+  @@map("reservation_status")
+}
+
+// Subscription management
+model Subscription {
+  id        String             @id @default(uuid())
+  storeId   String             @map("store_id")
+  plan      SubscriptionPlan
+  cycle     SubscriptionCycle
+  status    SubscriptionStatus
+  amount    Decimal            @db.Decimal(10, 2)
+  startDate DateTime           @map("start_date")
+  endDate   DateTime           @map("end_date")
+  nextDueAt DateTime?          @map("next_due_at")
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+
+  // Relations
+  store Store @relation(fields: [storeId], references: [id])
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionPlan {
+  BASIC
+  STANDARD
+  PREMIUM
+
+  @@map("subscription_plan")
+}
+
+enum SubscriptionCycle {
+  MONTHLY
+  YEARLY
+
+  @@map("subscription_cycle")
+}
+
+// Payment management
+model Payment {
+  id          String        @id @default(uuid())
+  orderId     String        @map("order_id")
+  provider    String        // 'manual', 'stripe', 'omise', etc.
+  status      PaymentStatus
+  amount      Decimal       @db.Decimal(10, 2)
+  intentRef   String?       @map("intent_ref") // Payment gateway reference
+  metadata    Json?
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUBMITTED
+  PAID
+  FAILED
+  REFUNDED
+
+  @@map("payment_status")
+}
+
+// Audit log
+model EventAudit {
+  id       String   @id @default(uuid())
+  entity   String   // Table name
+  entityId String   @map("entity_id")
+  action   String   // CREATE, UPDATE, DELETE, etc.
+  actorId  String?  @map("actor_id") // User ID who performed action
+  metadata Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+  @@map("events_audit")
+}
