@@ -8,6 +8,8 @@
 - ✅ ระบบกลางจัดเก็บและควบคุมสิทธิ์สินค้าของแต่ละแบรนด์
 - ✅ JWT Authentication และ RBAC Authorization
 - ✅ API สำหรับจัดการร้านค้า สินค้า และสิทธิ์แบรนด์ (เสร็จสมบูรณ์)
+- ✅ **Stock Management APIs**: ระบบจัดการสต๊อกแบบ atomic operations (เสร็จสมบูรณ์)
+- ✅ **Order Management APIs**: ระบบการสั่งซื้อพร้อม stock reservation (เสร็จสมบูรณ์)
 - 📋 ระบบสมาชิกแบบ Subscription สำหรับร้านค้า (รอพัฒนา)
 - 📋 **Store Product Creation**: API สำหรับให้ร้านค้าสร้างสินค้าเองตามเงื่อนไข (รอพัฒนา)
 
@@ -49,9 +51,8 @@
 ├── products/                # Product catalog
 ├── entitlements/            # Store-Brand permissions
 ├── 🆕 product-permissions/  # Store product creation permissions
-├── stocks/                  # Inventory management
-├── orders/                  # Order processing
-├── reservations/            # Stock reservations
+├── stock/                   # ✅ Inventory management (Phase 4) - เสร็จสมบูรณ์
+├── orders/                  # ✅ Order processing (Phase 4) - เสร็จสมบูรณ์
 ├── billing/                 # Subscription & payments
 ├── payments/                # Payment processing
 ├── reporting/               # Analytics & reports

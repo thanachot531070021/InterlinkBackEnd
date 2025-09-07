@@ -68,28 +68,28 @@
 
 ## 🏪 Phase 3: Backend Business Logic APIs
 
-### 3.1 Admin Management APIs
+### 3.1 Admin Management APIs ✅ COMPLETED
 - [x] **User management** APIs (CRUD) ✅
 - [x] **Brand management** APIs (CRUD) ✅
 - [x] **Store management** APIs (CRUD + status control) ✅
 - [x] **Store-Brand entitlements** APIs ✅
 - [x] **🆕 Store Product Permissions** APIs (CRUD) ✅
-- [ ] **Admin dashboard** summary APIs
+- [x] **Admin dashboard** summary APIs ✅
 
-### 3.2 Store Management APIs
+### 3.2 Store Management APIs ✅ COMPLETED  
 - [x] **Store profile** APIs ✅
 - [x] **Product import** APIs (from central catalog) ✅
 - [x] **🆕 Store product creation** APIs ✅
-- [ ] **Stock management** APIs
-- [ ] **Order management** APIs
-- [ ] **Sales reporting** APIs
+- [x] **Stock management** APIs ✅
+- [x] **Order management** APIs ✅
+- [x] **Sales reporting** APIs ✅
 
-### 3.3 Stock & Order Processing APIs
-- [ ] **Atomic stock updates** (prevent race conditions)
-- [ ] **Stock reservation** system (60-minute TTL)
-- [ ] **Idempotency handling** for checkout
-- [ ] **Order status** management APIs
-- [ ] **Order cancellation** with stock release
+### 3.3 Stock & Order Processing APIs ✅ COMPLETED
+- [x] **Atomic stock updates** (prevent race conditions) ✅
+- [x] **Stock reservation** system (60-minute TTL) ✅
+- [x] **Idempotency handling** for checkout ✅
+- [x] **Order status** management APIs ✅
+- [x] **Order cancellation** with stock release ✅
 
 ### 3.4 🆕 Product Approval System APIs
 - [ ] **Product submission** APIs
@@ -100,16 +100,39 @@
 
 ---
 
-## 🛒 Phase 4: Backend Customer & Public APIs
+## 📦 Phase 4: Backend Stock & Order Management ✅ COMPLETED
 
-### 4.1 Storefront APIs
+### 4.1 Stock Management APIs ✅ COMPLETED
+- [x] **Store Stock** APIs (CRUD with atomic operations) ✅
+- [x] **Product Stock** APIs (individual product/variant stock) ✅
+- [x] **Stock Reservation** system (TTL-based, 60-minute default) ✅
+- [x] **Stock Confirmation** APIs (convert reservations to sales) ✅
+- [x] **Stock Release** APIs (cancel reservations) ✅
+- [x] **Stock Adjustment** APIs (manual corrections) ✅
+- [x] **Stock Statistics** APIs (inventory analytics) ✅
+- [x] **Cleanup Jobs** APIs (expired reservation management) ✅
+
+### 4.2 Order Management APIs ✅ COMPLETED
+- [x] **Order Creation** APIs (with automatic stock reservation) ✅
+- [x] **Order Details** APIs (complete order information) ✅
+- [x] **Order Search** APIs (filtering and pagination) ✅
+- [x] **Order Status** management APIs (PENDING/CONFIRMED/CANCELLED) ✅
+- [x] **Order Cancellation** APIs (with stock release) ✅
+- [x] **Customer Management** APIs (guest customer support) ✅
+- [x] **Order Statistics** APIs (sales analytics) ✅
+- [x] **Order Attention** APIs (expired order management) ✅
+- [x] **Background Cleanup** APIs (automated order processing) ✅
+
+## 🛒 Phase 5: Backend Customer & Public APIs
+
+### 5.1 Storefront APIs  
 - [ ] **Public product catalog** APIs (with caching)
 - [ ] **Store information** APIs
-- [ ] **Guest customer** creation APIs
-- [ ] **Order placement** APIs (with reservation)
-- [ ] **Order tracking** APIs
+- [ ] **Guest customer** creation APIs (เสร็จแล้วใน Order Management)
+- [ ] **Order placement** APIs (เสร็จแล้วใน Order Management)  
+- [ ] **Order tracking** APIs (เสร็จแล้วใน Order Management)
 
-### 4.2 File Upload & Media
+### 5.2 File Upload & Media
 - [ ] **Image upload** handling (products)
 - [ ] **File validation** and processing
 - [ ] **S3/storage** integration
@@ -117,15 +140,15 @@
 
 ---
 
-## 💳 Phase 5: Backend Subscription & Payments
+## 💳 Phase 6: Backend Subscription & Payments
 
-### 5.1 Subscription Management APIs
+### 6.1 Subscription Management APIs
 - [ ] **Subscription** CRUD APIs
 - [ ] **Subscription status** tracking
 - [ ] **Store access control** based on subscription
 - [ ] **Grace period** handling
 
-### 5.2 Payment System APIs
+### 6.2 Payment System APIs
 - [ ] **Payment interface** design
 - [ ] **Manual payment** verification APIs
 - [ ] **Payment status** tracking
@@ -133,9 +156,9 @@
 
 ---
 
-## 📊 Phase 6: Backend Reporting & Analytics APIs
+## 📊 Phase 7: Backend Reporting & Analytics APIs
 
-### 6.1 Reporting APIs
+### 7.1 Reporting APIs
 - [ ] **Store sales** summary APIs
 - [ ] **Stock reports** APIs
 - [ ] **Order analytics** APIs
@@ -145,16 +168,16 @@
 
 ---
 
-## ⚙️ Phase 7: Backend Background Jobs & Automation
+## ⚙️ Phase 8: Backend Background Jobs & Automation
 
-### 7.1 Job Scheduler
+### 8.1 Job Scheduler
 - [ ] **node-cron** setup and configuration
-- [ ] **Reservation cleanup** jobs
+- [x] **Reservation cleanup** jobs ✅ (เสร็จใน Stock Management)
 - [ ] **Subscription expiry** checks
 - [ ] **🆕 Product approval reminders**
-- [ ] **Database cleanup** jobs
+- [x] **Database cleanup** jobs ✅ (เสร็จใน Order Management)
 
-### 7.2 Notification System
+### 8.2 Notification System
 - [ ] **Email service** integration (Nodemailer)
 - [ ] **Email templates** system
 - [ ] **Notification queue** system
@@ -164,9 +187,9 @@
 
 ---
 
-## 🧪 Phase 8: Backend Testing & Quality
+## 🧪 Phase 9: Backend Testing & Quality
 
-### 8.1 Backend Testing
+### 9.1 Backend Testing
 - [ ] **Unit tests** สำหรับ core services
 - [ ] **Integration tests** สำหรับ APIs
 - [ ] **Database transaction** tests
@@ -174,7 +197,7 @@
 - [ ] **🆕 Product permission** tests
 - [ ] **Stock correctness** stress tests
 
-### 8.2 Backend Code Quality
+### 9.2 Backend Code Quality
 - [ ] **TypeScript strict mode**
 - [ ] **Code coverage** reports (>80%)
 - [ ] **API documentation** completeness
@@ -182,15 +205,15 @@
 
 ---
 
-## 🚀 Phase 9: Backend Deployment & Infrastructure
+## 🚀 Phase 10: Backend Deployment & Infrastructure
 
-### 9.1 Backend Containerization
+### 10.1 Backend Containerization
 - [ ] **Production Dockerfile**
 - [ ] **Docker Compose** production setup
 - [ ] **nginx** reverse proxy configuration
 - [ ] **SSL/TLS** setup
 
-### 9.2 Backend Database & Monitoring
+### 10.2 Backend Database & Monitoring
 - [ ] **PostgreSQL** production setup
 - [ ] **Database backup** strategy
 - [ ] **Structured logging** (Winston)
@@ -399,24 +422,32 @@
   - [x] Store-Brand Entitlement APIs (Permission management)
   - [x] Complete Swagger API Documentation
   - [x] 56 API Endpoints across 4 business domains
+- [x] **📦 Backend Phase 4: Stock & Order Management APIs** (✅ COMPLETED)
+  - [x] Stock Management APIs (Atomic operations with TTL-based reservations)
+  - [x] Order Management APIs (Complete order lifecycle with stock integration)
+  - [x] Reservation System (60-minute TTL with cleanup mechanisms)
+  - [x] Customer Management (Guest customer support)
+  - [x] 21+ Additional API Endpoints for stock and order operations
+  - [x] Complete integration between Stock and Order systems
 
-### ✅ Completed Sprint: Backend Phase 3 - Business Logic APIs
-**Backend**: ✅ Phase 1, 2 & 3 เสร็จสมบูรณ์! ระบบ Business Logic APIs (Brands, Stores, Products, Entitlements) พร้อมใช้งาน
-**Frontend**: พร้อมเริ่มพัฒนาด้วย API endpoints ครบถ้วน
+### ✅ Completed Sprint: Backend Phase 4 - Stock & Order Management APIs
+**Backend**: ✅ Phase 1, 2, 3 & 4 เสร็จสมบูรณ์! ระบบ Stock & Order Management APIs พร้อมใช้งาน
+**ระบบครอบคลุม**: Authentication, Business Logic, Stock Management, Order Processing
+**Total API Endpoints**: 70+ APIs ครอบคลุมทุกฟีเจอร์หลัก
 
 ### 🎯 Next Priority Tasks
 
-#### Backend Priority (Phase 4 - Next):
-1. ✅ ~~สร้างโปรเจกต์ NestJS + Prisma setup~~ (เสร็จแล้ว)
-2. ✅ ~~Database schema และ migrations~~ (เสร็จแล้ว)
-3. ✅ ~~Authentication module (JWT + RBAC)~~ (เสร็จแล้ว)
-4. ✅ ~~Brand Management APIs~~ (เสร็จแล้ว)
-5. ✅ ~~Store Management APIs~~ (เสร็จแล้ว)
-6. ✅ ~~Product Management APIs~~ (เสร็จแล้ว)
-7. ✅ ~~Store-Brand Entitlement APIs~~ (เสร็จแล้ว)
-8. 🎯 **Stock Management APIs** ← ต่อไป
-9. Order Management APIs
-10. Background Jobs & Notifications
+#### Backend Priority (Phase 5 - Next):
+1. ✅ ~~สร้างโปรเจกต์ NestJS + Prisma setup~~ (Phase 1 เสร็จแล้ว)
+2. ✅ ~~Database schema และ migrations~~ (Phase 1 เสร็จแล้ว)
+3. ✅ ~~Authentication module (JWT + RBAC)~~ (Phase 2 เสร็จแล้ว)
+4. ✅ ~~Brand Management APIs~~ (Phase 3 เสร็จแล้ว)
+5. ✅ ~~Store Management APIs~~ (Phase 3 เสร็จแล้ว)
+6. ✅ ~~Product Management APIs~~ (Phase 3 เสร็จแล้ว)
+7. ✅ ~~Store-Brand Entitlement APIs~~ (Phase 3 เสร็จแล้ว)
+8. ✅ ~~Stock Management APIs~~ (Phase 4 เสร็จแล้ว)
+9. ✅ ~~Order Management APIs~~ (Phase 4 เสร็จแล้ว)
+10. 🎯 **Storefront APIs & File Upload** (Phase 5) ← ต่อไป
 
 #### Frontend Priority:
 1. สร้างโปรเจกต์ Next.js + Tailwind setup

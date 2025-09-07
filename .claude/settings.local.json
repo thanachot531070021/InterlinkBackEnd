@@ -14,7 +14,8 @@
       "Bash(npx prisma migrate dev:*)",
       "Bash(npx prisma db seed:*)",
       "Bash(taskkill:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(npx prisma migrate:*)"
     ],
     "deny": [],
     "ask": []

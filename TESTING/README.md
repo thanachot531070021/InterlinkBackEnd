@@ -12,10 +12,12 @@ TESTING/
 ├── 03_API_Validation/                # การทดสอบ Input Validation
 ├── 04_System_Health/                 # การทดสอบสุขภาพระบบ
 ├── 05_Database/                      # การทดสอบ Database & Data Integrity
-├── 06_Brand_Management/              # 🆕 การทดสอบ Brand Management APIs
-├── 07_Store_Management/              # 🆕 การทดสอบ Store Management APIs
-├── 08_Product_Management/            # 🆕 การทดสอบ Product Management APIs
-├── 09_Store_Brand_Entitlements/      # 🆕 การทดสอบ Store-Brand Entitlements APIs
+├── 06_Brand_Management/              # การทดสอบ Brand Management APIs
+├── 07_Store_Management/              # การทดสอบ Store Management APIs
+├── 08_Product_Management/            # การทดสอบ Product Management APIs
+├── 09_Store_Brand_Entitlements/      # การทดสอบ Store-Brand Entitlements APIs
+├── 10_Stock_Management/              # ✅ การทดสอบ Stock Management APIs (Phase 4)
+├── 11_Order_Management/              # ✅ การทดสอบ Order Management APIs (Phase 4)
 └── 99_Results/                       # ผลการทดสอบล่าสุด
 ```
 
@@ -39,10 +41,12 @@ TESTING/
 3. **Authorization & RBAC** (`02_Authorization_RBAC/`) - ทดสอบสิทธิ์
 4. **API Validation** (`03_API_Validation/`) - ทดสอบ input validation
 5. **Database** (`05_Database/`) - ทดสอบข้อมูล
-6. **🆕 Brand Management** (`06_Brand_Management/`) - ทดสอบ Brand APIs
-7. **🆕 Store Management** (`07_Store_Management/`) - ทดสอบ Store APIs
-8. **🆕 Product Management** (`08_Product_Management/`) - ทดสอบ Product APIs
-9. **🆕 Store-Brand Entitlements** (`09_Store_Brand_Entitlements/`) - ทดสอบ Entitlement APIs
+6. **Brand Management** (`06_Brand_Management/`) - ทดสอบ Brand APIs
+7. **Store Management** (`07_Store_Management/`) - ทดสอบ Store APIs
+8. **Product Management** (`08_Product_Management/`) - ทดสอบ Product APIs
+9. **Store-Brand Entitlements** (`09_Store_Brand_Entitlements/`) - ทดสอบ Entitlement APIs
+10. **✅ Stock Management** (`10_Stock_Management/`) - ทดสอบ Stock & Reservation APIs (Phase 4)
+11. **✅ Order Management** (`11_Order_Management/`) - ทดสอบ Order Processing APIs (Phase 4)
 
 ## 📊 มาตรฐานการทดสอบ
 
@@ -77,18 +81,20 @@ TESTING/
 
 ## 📊 สรุปจำนวนการทดสอบ
 
-**รวม: 95 Test Cases**
+**รวม: 116+ Test Cases**
 - 🔐 Authentication: 8 tests
 - 🛡️ Authorization/RBAC: 8 tests  
 - ✅ API Validation: 13 tests
 - 💚 System Health: 12 tests
 - 🗄️ Database: 15 tests
-- 🏷️ **🆕 Brand Management**: 10 tests
-- 🏪 **🆕 Store Management**: 12 tests
-- 📦 **🆕 Product Management**: 15 tests
-- 🔗 **🆕 Store-Brand Entitlements**: 12 tests
+- 🏷️ Brand Management: 10 tests
+- 🏪 Store Management: 12 tests
+- 📦 Product Management: 15 tests
+- 🔗 Store-Brand Entitlements: 12 tests
+- 📦 **✅ Stock Management**: 11+ tests (Phase 4)
+- 🛒 **✅ Order Management**: 10+ tests (Phase 4)
 
 ---
 
 *Last Updated: 2025-09-07*  
-*Status: 🧪 Phase 3 Testing Suite Ready - 95 Test Cases Available*
+*Status: 🧪 Phase 4 Testing Suite Ready - 116+ Test Cases Available*

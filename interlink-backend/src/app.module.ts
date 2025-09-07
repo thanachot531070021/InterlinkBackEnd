@@ -10,6 +10,8 @@ import { BrandsModule } from './brands/brands.module';
 import { StoresModule } from './stores/stores.module';
 import { ProductsModule } from './products/products.module';
 import { EntitlementsModule } from './entitlements/entitlements.module';
+import { StockModule } from './stock/stock.module';
+import { OrdersModule } from './orders/orders.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -40,8 +42,9 @@ import { AppService } from './app.service';
     ProductsModule,
     EntitlementsModule,
     
-    // TODO: Add other modules as we implement them
-    // etc.
+    // Phase 4 modules - Stock & Order Management
+    StockModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
