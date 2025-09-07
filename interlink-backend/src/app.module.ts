@@ -6,6 +6,10 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { BrandsModule } from './brands/brands.module';
+import { StoresModule } from './stores/stores.module';
+import { ProductsModule } from './products/products.module';
+import { EntitlementsModule } from './entitlements/entitlements.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -30,10 +34,13 @@ import { AppService } from './app.service';
     AuthModule,
     UsersModule,
     
+    // Business Logic modules
+    BrandsModule,
+    StoresModule,
+    ProductsModule,
+    EntitlementsModule,
+    
     // TODO: Add other modules as we implement them
-    // StoresModule,
-    // BrandsModule,
-    // ProductsModule,
     // etc.
   ],
   controllers: [AppController],

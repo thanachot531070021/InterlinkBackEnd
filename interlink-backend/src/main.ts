@@ -40,8 +40,11 @@ async function bootstrap() {
     .addBearerAuth()
     .addTag('auth', 'Authentication & Authorization')
     .addTag('users', 'User Management APIs')
+    .addTag('brands', 'Brand Management APIs')
+    .addTag('stores', 'Store Management APIs')
+    .addTag('products', 'Product Management APIs')
+    .addTag('store-brand-entitlements', 'Store-Brand Entitlement APIs')
     .addTag('admin', 'Admin Management APIs')
-    .addTag('store', 'Store Management APIs')
     .addTag('public', 'Public APIs')
     .build();
     

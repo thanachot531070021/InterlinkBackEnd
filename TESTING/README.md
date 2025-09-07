@@ -6,13 +6,17 @@
 
 ```
 TESTING/
-├── README.md                    # คู่มือการทดสอบหลัก
-├── 01_Authentication/           # การทดสอบระบบ Authentication
-├── 02_Authorization_RBAC/       # การทดสอบระบบ Authorization & RBAC
-├── 03_API_Validation/           # การทดสอบ Input Validation
-├── 04_System_Health/            # การทดสอบสุขภาพระบบ
-├── 05_Database/                 # การทดสอบ Database & Data Integrity
-└── 99_Results/                  # ผลการทดสอบล่าสุด
+├── README.md                         # คู่มือการทดสอบหลัก
+├── 01_Authentication/                # การทดสอบระบบ Authentication
+├── 02_Authorization_RBAC/            # การทดสอบระบบ Authorization & RBAC
+├── 03_API_Validation/                # การทดสอบ Input Validation
+├── 04_System_Health/                 # การทดสอบสุขภาพระบบ
+├── 05_Database/                      # การทดสอบ Database & Data Integrity
+├── 06_Brand_Management/              # 🆕 การทดสอบ Brand Management APIs
+├── 07_Store_Management/              # 🆕 การทดสอบ Store Management APIs
+├── 08_Product_Management/            # 🆕 การทดสอบ Product Management APIs
+├── 09_Store_Brand_Entitlements/      # 🆕 การทดสอบ Store-Brand Entitlements APIs
+└── 99_Results/                       # ผลการทดสอบล่าสุด
 ```
 
 ## 🎯 วัตถุประสงค์การทดสอบ
@@ -35,6 +39,10 @@ TESTING/
 3. **Authorization & RBAC** (`02_Authorization_RBAC/`) - ทดสอบสิทธิ์
 4. **API Validation** (`03_API_Validation/`) - ทดสอบ input validation
 5. **Database** (`05_Database/`) - ทดสอบข้อมูล
+6. **🆕 Brand Management** (`06_Brand_Management/`) - ทดสอบ Brand APIs
+7. **🆕 Store Management** (`07_Store_Management/`) - ทดสอบ Store APIs
+8. **🆕 Product Management** (`08_Product_Management/`) - ทดสอบ Product APIs
+9. **🆕 Store-Brand Entitlements** (`09_Store_Brand_Entitlements/`) - ทดสอบ Entitlement APIs
 
 ## 📊 มาตรฐานการทดสอบ
 
@@ -67,5 +75,20 @@ TESTING/
 
 ---
 
+## 📊 สรุปจำนวนการทดสอบ
+
+**รวม: 95 Test Cases**
+- 🔐 Authentication: 8 tests
+- 🛡️ Authorization/RBAC: 8 tests  
+- ✅ API Validation: 13 tests
+- 💚 System Health: 12 tests
+- 🗄️ Database: 15 tests
+- 🏷️ **🆕 Brand Management**: 10 tests
+- 🏪 **🆕 Store Management**: 12 tests
+- 📦 **🆕 Product Management**: 15 tests
+- 🔗 **🆕 Store-Brand Entitlements**: 12 tests
+
+---
+
 *Last Updated: 2025-09-07*  
-*Status: 🧪 Testing Suite Ready*
+*Status: 🧪 Phase 3 Testing Suite Ready - 95 Test Cases Available*
