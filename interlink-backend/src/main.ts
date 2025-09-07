@@ -19,6 +19,9 @@ async function bootstrap() {
     }),
   );
   
+  // Global prefix (must be set before Swagger setup)
+  app.setGlobalPrefix('api');
+  
   // CORS configuration
   app.enableCors({
     origin: [
@@ -36,6 +39,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('auth', 'Authentication & Authorization')
+    .addTag('users', 'User Management APIs')
     .addTag('admin', 'Admin Management APIs')
     .addTag('store', 'Store Management APIs')
     .addTag('public', 'Public APIs')
@@ -43,9 +47,6 @@ async function bootstrap() {
     
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-  
-  // Global prefix
-  app.setGlobalPrefix('api');
   
   await app.listen(port);
   console.log(`🚀 Interlink Backend API running on port ${port}`);
