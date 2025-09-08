@@ -11,7 +11,7 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { EntitlementsService } from './entitlements.service';
 import { CreateStoreBrandEntitlementDto } from './dto/create-entitlement.dto';
 import { UpdateStoreBrandEntitlementDto } from './dto/update-entitlement.dto';

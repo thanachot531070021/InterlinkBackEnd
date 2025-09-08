@@ -61,10 +61,11 @@ npm run start:dev
 ```
 
 3. **Access services**
-- API Server: http://localhost:3001
-- API Documentation: http://localhost:3001/api/docs
-- Database UI (Adminer): http://localhost:8080
-- Email Testing (MailHog): http://localhost:8025
+- 🌐 **API Server**: http://localhost:3001
+- 📚 **API Documentation (Swagger)**: http://localhost:3001/api/docs
+- 🗄️ **Database UI (Prisma Studio)**: http://localhost:5555
+- 💾 **Database Admin (Adminer)**: http://localhost:8080
+- 📧 **Email Testing (MailHog)**: http://localhost:8025
 
 ## 📊 Database Architecture
 
@@ -94,8 +95,10 @@ npm run prisma:migrate
 # Push schema to database (development only)
 npm run prisma:push
 
-# Open Prisma Studio (Database UI)
+# 🗄️ Open Prisma Studio (Database GUI) - Opens at http://localhost:5555
 npm run prisma:studio
+# Alternative command:
+npx prisma studio
 
 # Reset database completely
 npx prisma migrate reset
@@ -103,6 +106,34 @@ npx prisma migrate reset
 # Populate database with comprehensive demo data
 npm run prisma:seed
 ```
+
+### 🗄️ Prisma Studio - Database Management UI
+
+**Prisma Studio** เป็นเครื่องมือ GUI สำหรับจัดการฐานข้อมูลแบบ visual:
+
+**วิธีเปิดใช้งาน:**
+```bash
+# เปิด Prisma Studio
+cd interlink-backend
+npx prisma studio
+
+# หรือใช้ npm script
+npm run prisma:studio
+```
+
+**ฟีเจอร์หลัก:**
+- 👀 **ดูข้อมูล**: เรียกดูข้อมูลในตารางต่างๆ แบบ real-time
+- ➕ **เพิ่มข้อมูล**: สร้าง records ใหม่ผ่าน GUI
+- ✏️ **แก้ไขข้อมูล**: อัพเดตข้อมูลที่มีอยู่
+- 🗑️ **ลบข้อมูล**: ลบ records ที่ไม่ต้องการ
+- 🔍 **ค้นหา**: กรองและค้นหาข้อมูลง่ายๆ
+- 📊 **ดู Schema**: เข้าใจโครงสร้างฐานข้อมูลและความสัมพันธ์
+
+**เหมาะสำหรับ:**
+- 🧪 **Testing**: ตรวจสอบข้อมูลหลัง API calls
+- 🐛 **Debugging**: วิเคราะห์ปัญหาข้อมูล
+- 📝 **Development**: เพิ่มข้อมูลทดสอบ
+- 🔍 **Inspection**: ตรวจสอบความถูกต้องของข้อมูล
 
 ### 🎯 Advanced Database Features
 - **Multi-tenant Data Isolation**: Row-level security ready
@@ -319,11 +350,11 @@ npm run test:e2e
 ### 🎯 Testing Prerequisites
 1. **Backend server**: `npm run start:dev` (http://localhost:3001)
 2. **Demo data**: `npm run prisma:seed`
-3. **Tools available**:
-   - 📖 **Swagger UI**: http://localhost:3001/api/docs
-   - 🗄️ **Prisma Studio**: http://localhost:5555 
-   - 📧 **MailHog**: http://localhost:8025
-   - 💾 **Adminer**: http://localhost:8080
+3. **🛠️ Development Tools Available**:
+   - 📖 **Swagger UI (API Docs)**: http://localhost:3001/api/docs
+   - 🗄️ **Prisma Studio (Database GUI)**: http://localhost:5555 (รัน `npx prisma studio`)
+   - 📧 **MailHog (Email Testing)**: http://localhost:8025
+   - 💾 **Adminer (Database Admin)**: http://localhost:8080
 
 ### 🛠️ Testing Tools & Methods
 - **cURL Commands**: Ready-to-use commands in each test folder
@@ -511,12 +542,28 @@ npm run build
 npm run start:prod
 ```
 
-## 📚 Documentation
+## 📚 Documentation & Tools
 
-- API Documentation: `/api/docs` (Swagger)
-- Database Schema: `prisma/schema.prisma`
-- Backend Architecture: `../BACKEND.md`
-- Development Checklist: `../checkList.md`
+### 📖 API Documentation
+- **Swagger UI**: http://localhost:3001/api/docs
+- **Interactive API Testing**: Try all endpoints with examples
+- **Schema Definitions**: Complete request/response documentation
+
+### 🗄️ Database Management
+- **Prisma Studio**: http://localhost:5555 (รัน `npx prisma studio`)
+- **Database Schema**: `prisma/schema.prisma`
+- **Visual Database Browser**: Browse tables, relationships, and data
+- **Data Management**: Create, update, delete records via GUI
+
+### 📧 Email Testing
+- **MailHog**: http://localhost:8025
+- **Email Inbox**: View emails sent by the application
+- **SMTP Testing**: Test email notifications and OTP
+
+### 📁 Additional Documentation
+- **Backend Architecture**: `../BACKEND.md`
+- **Development Checklist**: `../checkList.md`
+- **Testing Guide**: `TESTING/README.md`
 
 ## 🤝 Development Workflow
 
