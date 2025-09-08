@@ -463,6 +463,58 @@ NEXTAUTH_URL=${NEXTAUTH_URL}
 
 ---
 
+## 🆕 **Public APIs - Guest Access (Phase 6 Completed)**
+
+### 🌐 **Public APIs (ไม่ต้อง Authentication)**
+เพิ่ม Public APIs สำหรับ Guest Users ให้สามารถดูข้อมูลก่อนตัดสินใจ Login/สมัครสมาชิก:
+
+#### 📦 **Product APIs (Public)**
+```
+GET    /api/public/products                            # ดูสินค้าทั้งหมด (พร้อม filters)
+GET    /api/public/products/{id}                       # ดูรายละเอียดสินค้า + ร้านที่มีขาย
+```
+
+#### 🏷️ **Brand APIs (Public)**
+```
+GET    /api/public/brands                              # ดูแบรนด์ทั้งหมด
+GET    /api/public/brands/{id}                         # ดูรายละเอียดแบรนด์ + สินค้า
+```
+
+#### 🏪 **Store APIs (Public)**  
+```
+GET    /api/public/stores                              # ดูร้านค้าทั้งหมด
+```
+
+#### 🔍 **Search & Discovery APIs (Public)**
+```
+GET    /api/public/categories                          # ดูหมวดหมู่สินค้าทั้งหมด
+GET    /api/public/search/suggestions?q={query}        # แนะนำการค้นหา (autocomplete)
+```
+
+#### 🛍️ **Enhanced Storefront APIs (Public)**
+```
+GET    /api/storefront/products/all                    # ดูสินค้าทั้งหมด (ข้าม store-specific)
+GET    /api/storefront/{storeSlug}                     # ดูข้อมูลร้าน
+GET    /api/storefront/{storeSlug}/products            # ดูสินค้าในร้าน  
+GET    /api/storefront/{storeSlug}/products/{productSlug}  # ดูรายละเอียดสินค้า
+GET    /api/storefront/{storeSlug}/categories          # ดูหมวดหมู่ในร้าน
+GET    /api/storefront/{storeSlug}/brands              # ดูแบรนด์ในร้าน
+```
+
+### 🎯 **Perfect E-commerce UX Flow:**
+1. **🌐 Browse (No Auth)**: ลูกค้าดูสินค้า/ร้าน/แบรนด์ได้ก่อน
+2. **🔍 Search & Filter (No Auth)**: หาสินค้าที่ต้องการ
+3. **👀 Compare (No Auth)**: เปรียบเทียบราคาและร้านค้า
+4. **🔒 Login to Purchase**: ล็อกอินเมื่อต้องการสั่งซื้อ
+5. **🛒 Transaction (Auth)**: ทำรายการซื้อขาย
+
+### 🛡️ **Security Features:**
+- **Rate Limiting**: ป้องกัน API abuse จาก public endpoints
+- **Data Filtering**: แสดงเฉพาะข้อมูลที่เหมาะสม (ไม่มีข้อมูลราคาต้นทุน)
+- **Cache-friendly**: เหมาะสำหรับ CDN caching
+
+---
+
 ## 🆕 API Endpoints (Store Product Creation)
 
 ### Admin APIs
@@ -491,4 +543,30 @@ PUT    /store/product-submissions/{id}                 # แก้ไขสิ�
 
 ---
 
-*เอกสารนี้จะอัพเดตตามความก้าวหน้าของโปรเจกต์*
+## 📊 **Current API Statistics (Updated)**
+
+### 🎯 **Total API Endpoints: 95+ APIs**
+- **🔐 Authentication APIs**: 8 endpoints
+- **🏷️ Brand Management**: 7 endpoints  
+- **🏪 Store Management**: 8 endpoints
+- **📦 Product Management**: 11 endpoints
+- **🔗 Store-Brand Entitlements**: 11 endpoints
+- **📊 Stock Management**: 14 endpoints
+- **🛒 Order Management**: 16 endpoints
+- **📁 File Upload**: 10 endpoints
+- **🛍️ Storefront (Public)**: 8 endpoints
+- **🌐 Public APIs (New)**: 8 endpoints
+- **🔐 Two-Factor Auth**: 6 endpoints
+- **🌐 Social Login**: 5 endpoints
+- **👤 User Management**: 5 endpoints
+
+### 🏗️ **Architecture Highlights:**
+- **Public/Private API Separation**: Clear distinction between guest and authenticated access
+- **Rate Limiting**: Comprehensive protection for public endpoints  
+- **Rich Examples**: Complete Swagger documentation with real-world examples
+- **Mobile-First**: APIs optimized for mobile app consumption
+- **SEO-Friendly**: Public APIs support search engine indexing
+
+---
+
+*เอกสารนี้จะอัพเดตตามความก้าวหน้าของโปรเจกต์ - Last Updated: Phase 6 (Public APIs)*

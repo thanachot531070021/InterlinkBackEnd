@@ -120,10 +120,43 @@ export class ProductsController {
   }
 
   @Get('active')
-  @ApiOperation({ summary: 'Get active products only' })
+  @ApiOperation({ 
+    summary: 'Get active products only (Public access)', 
+    description: 'Public endpoint to view active products without authentication - useful for browsing before login'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'List of active products',
+    description: 'List of active products (public access)',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', example: 'product-uuid-789' },
+          name: { type: 'string', example: 'iPhone 15 Pro' },
+          slug: { type: 'string', example: 'iphone-15-pro' },
+          sku: { type: 'string', example: 'APL-IPH15P-256-BLK' },
+          description: { type: 'string', example: 'Latest iPhone with advanced camera system' },
+          category: { type: 'string', example: 'Electronics' },
+          price: { type: 'number', example: 39900.00 },
+          images: { 
+            type: 'array', 
+            items: { type: 'string' },
+            example: ['https://example.com/iphone15pro-1.jpg']
+          },
+          brand: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', example: 'brand-uuid-789' },
+              name: { type: 'string', example: 'Apple' },
+              slug: { type: 'string', example: 'apple' }
+            }
+          },
+          status: { type: 'string', example: 'ACTIVE' },
+          isActive: { type: 'boolean', example: true }
+        }
+      }
+    }
   })
   async findActiveOnly() {
     return this.productsService.findActiveOnly();

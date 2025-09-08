@@ -30,20 +30,32 @@ Content-Type: application/json
 | `SALE` | Sales representative | Sales-specific access |
 | `CUSTOMER_GUEST` | Customer/Guest user | Public storefront access |
 
-## API Modules
+## API Modules (95+ Total Endpoints)
 
-1. **[Authentication APIs](./01_authentication.md)** - Login, profile management, 2FA, social login
-2. **[User Management APIs](./02_users.md)** - User CRUD operations (Admin only)
-3. **[Store Management APIs](./03_stores.md)** - Store operations and management
-4. **[Brand Management APIs](./04_brands.md)** - Brand operations and management
-5. **[Product Management APIs](./05_products.md)** - Product catalog management
-6. **[Entitlements APIs](./06_entitlements.md)** - Store-Brand permissions
-7. **[Stock Management APIs](./07_stock.md)** - Inventory operations
-8. **[Order Management APIs](./08_orders.md)** - Order processing and management
-9. **[Storefront APIs](./09_storefront.md)** - Public customer-facing APIs
-10. **[File Upload APIs](./10_uploads.md)** - File handling and storage
-11. **[Two-Factor Authentication APIs](./11_two_factor.md)** - 2FA setup and verification
-12. **[Social Login APIs](./12_social_login.md)** - OAuth integration
+### 🔐 Authentication & Security
+1. **[Authentication APIs](./01_authentication.md)** - Login, profile management, JWT tokens (4 APIs)
+2. **[Two-Factor Authentication APIs](./11_two_factor.md)** - 2FA/TOTP setup and verification (6+ APIs)
+3. **[Social Login APIs](./12_social_login.md)** - Google/Facebook OAuth integration (5+ APIs)
+
+### 👥 User & Access Management  
+4. **[User Management APIs](./02_users.md)** - User CRUD operations (Admin only) (5 APIs)
+5. **[Entitlements APIs](./06_entitlements.md)** - Store-Brand permissions (11 APIs)
+
+### 🏪 Business Logic Management
+6. **[Brand Management APIs](./04_brands.md)** - Brand operations and management (7 APIs)
+7. **[Store Management APIs](./03_stores.md)** - Store operations and management (8 APIs)
+8. **[Product Management APIs](./05_products.md)** - Product catalog management (11 APIs)
+
+### 📊 Operations & Inventory
+9. **[Stock Management APIs](./07_stock.md)** - Inventory operations with reservations (14+ APIs)
+10. **[Order Management APIs](./08_orders.md)** - Order processing and customer management (16+ APIs)
+
+### 🌍 Public & Customer APIs
+11. **[🆕 Public Guest APIs](./13_public_apis.md)** - **NEW!** Browse products without login (8 APIs)
+12. **[Storefront APIs](./09_storefront.md)** - Store-specific customer APIs (4 APIs)
+
+### 📁 File Management
+13. **[File Upload APIs](./10_uploads.md)** - File handling and configurable storage (2 APIs)
 
 ## Common Response Formats
 

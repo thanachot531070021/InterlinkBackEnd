@@ -14,6 +14,7 @@ import { StockModule } from './stock/stock.module';
 import { OrdersModule } from './orders/orders.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { StorefrontModule } from './storefront/storefront.module';
+import { PublicModule } from './public/public.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -51,6 +52,9 @@ import { AppService } from './app.service';
     // Phase 5 modules - File Upload & Storefront
     UploadsModule,
     StorefrontModule,
+    
+    // Public APIs (No Authentication Required)
+    PublicModule,
   ],
   controllers: [AppController],
   providers: [

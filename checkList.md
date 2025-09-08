@@ -152,6 +152,16 @@
 - [x] **File type validation** (image/document/avatar) ✅
 - [x] **Storage provider switching** via environment ✅
 
+### 🆕 5.3 Public Guest APIs ✅ COMPLETED
+- [x] **Public product browsing** APIs (no authentication required) ✅
+- [x] **Active brands listing** APIs (public access) ✅
+- [x] **Active stores listing** APIs (public access) ✅
+- [x] **Product categories** APIs (dynamic from products) ✅
+- [x] **Search suggestions** APIs (products + brands) ✅
+- [x] **Product details** APIs (with store availability) ✅
+- [x] **Brand details** APIs (with product listings) ✅
+- [x] **Rate limiting** for public endpoints ✅
+
 ---
 
 ## 💳 Phase 6: Backend Subscription & Payments
@@ -448,13 +458,16 @@
   - [x] Configurable File Upload System (Local/S3 with provider abstraction)
   - [x] Multi-provider Storage Architecture (Environment-based switching)
   - [x] File Validation & Processing (Type validation, security checks)
-  - [x] 18+ Additional API Endpoints for storefront and file operations
-  - [x] Complete public-facing e-commerce functionality
+  - [x] 🆕 **Public Guest APIs Module** (8 endpoints for unauthenticated access)
+  - [x] 🆕 **Enhanced Swagger Documentation** (Complete examples and parameters)
+  - [x] 26+ Additional API Endpoints including public guest access
+  - [x] Complete public-facing e-commerce functionality with guest browsing
 
-### ✅ Completed Sprint: Backend Phase 5 - Storefront APIs & File Upload
-**Backend**: ✅ Phase 1, 2, 3, 4 & 5 เสร็จสมบูรณ์! ระบบ E-commerce Backend APIs พร้อมใช้งาน
-**ระบบครอบคลุม**: Authentication, Business Logic, Stock Management, Order Processing, Storefront APIs, File Upload
-**Total API Endpoints**: 85+ APIs ครอบคลุมระบบ E-commerce สมบูรณ์
+### ✅ Completed Sprint: Backend Phase 5+ - Public APIs & Enhanced Documentation
+**Backend**: ✅ Phase 1, 2, 3, 4, 5 & Public APIs เสร็จสมบูรณ์! ระบบ E-commerce Backend APIs พร้อมใช้งาน
+**ระบบครอบคลุม**: Authentication, Business Logic, Stock Management, Order Processing, Storefront APIs, File Upload, **Public Guest APIs**
+**Total API Endpoints**: 95+ APIs ครอบคลุมระบบ E-commerce สมบูรณ์ (รวม **8 Public APIs** สำหรับ Guest Users)
+**🆕 Public APIs Module**: Guest browsing without authentication - products, brands, stores, categories, search
 
 ### 🎯 Next Priority Tasks
 

@@ -22,6 +22,7 @@ TESTING/
 ├── 13_Storefront_APIs/               # ✅ การทดสอบ Storefront APIs (Phase 5)
 ├── 14_Two_Factor_Auth/               # ✅ การทดสอบ Two-Factor Authentication (2FA)
 ├── 15_Social_Login/                  # ✅ การทดสอบ Social Login Integration
+├── 16_Public_Guest_APIs/             # 🆕 การทดสอบ Public Guest APIs (No Auth Required)
 └── 99_Results/                       # ผลการทดสอบล่าสุด
 ```
 
@@ -55,6 +56,7 @@ TESTING/
 13. **✅ Storefront APIs** (`13_Storefront_APIs/`) - ทดสอบ Public E-commerce APIs (Phase 5)
 14. **✅ Two-Factor Authentication** (`14_Two_Factor_Auth/`) - ทดสอบ 2FA TOTP & Backup Codes
 15. **✅ Social Login** (`15_Social_Login/`) - ทดสอบ Google/Facebook Login Integration
+16. **🆕 Public Guest APIs** (`16_Public_Guest_APIs/`) - ทดสอบ Guest Access APIs (No Authentication)
 
 ## 📊 มาตรฐานการทดสอบ
 
@@ -89,7 +91,7 @@ TESTING/
 
 ## 📊 สรุปจำนวนการทดสอบ
 
-**รวม: 140+ Test Cases**
+**รวม: 160+ Test Cases**
 - 🔐 Authentication: 8 tests
 - 🛡️ Authorization/RBAC: 8 tests  
 - ✅ API Validation: 13 tests
@@ -103,8 +105,11 @@ TESTING/
 - 🛒 **✅ Order Management**: 10+ tests (Phase 4)
 - 📁 **✅ File Upload**: 12+ tests (Phase 5)
 - 🛒 **✅ Storefront APIs**: 12+ tests (Phase 5)
+- 🔐 **✅ Two-Factor Authentication**: 12+ tests (2FA/TOTP)
+- 🌐 **✅ Social Login Integration**: 12+ tests (Google/Facebook)
+- 🌍 **🆕 Public Guest APIs**: 16+ tests (No Authentication Required)
 
 ---
 
-*Last Updated: 2025-09-07*  
-*Status: 🧪 Phase 5 Testing Suite Ready - 140+ Test Cases Available*
+*Last Updated: 2025-09-08*  
+*Status: 🧪 Phase 5+ Testing Suite Ready - 160+ Test Cases Available (Including Public APIs)*

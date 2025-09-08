@@ -180,7 +180,7 @@ This creates a complete testing environment for all Phase 3 APIs (95 test cases 
 - `SALE`: Sales agent (future)
 - `CUSTOMER_GUEST`: Guest customer
 
-## 📡 Complete API Endpoints (85+ APIs)
+## 📡 Complete API Endpoints (95+ APIs)
 
 ### 🔐 Core Authentication APIs
 - `POST /api/auth/login` - User authentication
@@ -291,6 +291,17 @@ This creates a complete testing environment for all Phase 3 APIs (95 test cases 
 - `GET /api/storefront/:storeSlug/products` - Store products
 - `GET /api/storefront/:storeSlug/products/:slug` - Product details
 - `GET /api/storefront/:storeSlug/products/:id/availability` - Check availability
+
+### 🌍 Public Guest APIs (8 endpoints) - **NEW!**
+**No Authentication Required - Perfect for Product Discovery**
+- `GET /api/public/products` - Browse all active products with filtering
+- `GET /api/public/products/:id` - View product details with store availability
+- `GET /api/public/brands` - List all active brands
+- `GET /api/public/brands/:id` - View brand details with products
+- `GET /api/public/stores` - List all active stores
+- `GET /api/public/categories` - Get product categories with counts
+- `GET /api/public/search/suggestions` - Search suggestions (products + brands)
+- **Rate Limited**: ThrottlerGuard protects all public endpoints
 
 ### 👤 User Management APIs
 - `GET /api/users` - List users (Admin only)
@@ -625,11 +636,12 @@ npm run start:prod
 - **Performance Testing**: Load testing and response time validation
 
 ### 📊 System Metrics
-- **🎯 Total API Endpoints**: 85+ endpoints across all modules
+- **🎯 Total API Endpoints**: 95+ endpoints across all modules (including 8 public APIs)
 - **🗄️ Database Tables**: 15+ optimized tables with relationships
 - **🧪 Test Coverage**: 140+ manual test cases
 - **📚 Documentation**: Complete API docs + testing guides
 - **🔒 Security**: Multi-layer security with RBAC and validation
+- **🌍 Public Access**: Guest browsing capabilities for better UX
 
 ### 🎯 Next Phase: Subscription & Payment Management
 - 💳 **Payment Processing**: Manual and automated payment handling
@@ -638,12 +650,14 @@ npm run start:prod
 - 📊 **Financial Reports**: Revenue and subscription analytics
 - 🔔 **Notification System**: Email alerts and reminders
 
-**🏆 Current Status**: **Phase 1-5 Complete** - Full E-commerce Backend Ready! ✅
+**🏆 Current Status**: **Phase 1-5+ Complete** - Full E-commerce Backend Ready! ✅
 
 **💪 System Capabilities**:
 - Complete multi-tenant e-commerce platform
 - Real-time stock management with reservations
 - Public storefront APIs for customer-facing applications
+- **🌍 Public Guest APIs** for better UX (browse before login)
 - Configurable file storage for images and documents
+- **📚 Enhanced Swagger Documentation** with complete examples
 - Comprehensive testing suite for quality assurance
 - Production-ready with Docker containerization

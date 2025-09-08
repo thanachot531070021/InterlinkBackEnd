@@ -504,4 +504,62 @@ export class StorefrontService {
       })),
     };
   }
+
+  // Get all active products (Public access)
+  async getAllActiveProducts() {
+    const products = await this.prisma.product.findMany({
+      where: {
+        isActive: true,
+        status: 'ACTIVE',
+      },
+      include: {
+        brand: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            logo: true,
+          },
+        },
+        _count: {
+          select: {
+            storeStock: {
+              where: {
+                availableQty: {
+                  gt: 0,
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
+
+    const productsWithAvailability = products.map(product => ({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      sku: product.sku,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      images: product.images,
+      brand: product.brand,
+      status: product.status,
+      isActive: product.isActive,
+      hasStock: product._count.storeStock > 0,
+      storesAvailable: product._count.storeStock,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    }));
+
+    return {
+      products: productsWithAvailability,
+      total: productsWithAvailability.length,
+      timestamp: new Date().toISOString(),
+    };
+  }
 }
