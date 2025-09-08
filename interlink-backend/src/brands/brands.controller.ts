@@ -10,7 +10,7 @@ import {
   HttpStatus,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
@@ -30,9 +30,23 @@ export class BrandsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a new brand (Admin only)' })
+  @ApiBody({ type: CreateBrandDto })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Brand created successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: 'brand-uuid-123' },
+        name: { type: 'string', example: 'Tech Gadgets' },
+        slug: { type: 'string', example: 'tech-gadgets' },
+        description: { type: 'string', example: 'Latest technology and gadgets for modern life' },
+        logo: { type: 'string', example: 'https://example.com/logo.png', nullable: true },
+        isActive: { type: 'boolean', example: true },
+        createdAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,
@@ -41,6 +55,10 @@ export class BrandsController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Brand slug already exists',
   })
   async create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandsService.create(createBrandDto);
@@ -122,9 +140,22 @@ export class BrandsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Update brand (Admin only)' })
+  @ApiBody({ type: UpdateBrandDto })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Brand updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: 'brand-uuid-123' },
+        name: { type: 'string', example: 'Tech Gadgets Updated' },
+        slug: { type: 'string', example: 'tech-gadgets' },
+        description: { type: 'string', example: 'Updated: Latest technology and gadgets for modern life' },
+        logo: { type: 'string', example: 'https://example.com/updated-logo.png' },
+        isActive: { type: 'boolean', example: true },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-25T16:45:00.000Z' }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,

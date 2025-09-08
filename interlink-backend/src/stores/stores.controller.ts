@@ -10,7 +10,7 @@ import {
   HttpStatus,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { StoresService } from './stores.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
@@ -30,9 +30,37 @@ export class StoresController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a new store (Admin only)' })
+  @ApiBody({ type: CreateStoreDto })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Store created successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: '456e7890-e89b-12d3-a456-426614174001' },
+        name: { type: 'string', example: 'My Awesome Store' },
+        slug: { type: 'string', example: 'my-awesome-store' },
+        description: { type: 'string', example: 'A premium retail store offering quality products' },
+        email: { type: 'string', example: 'store@example.com' },
+        phone: { type: 'string', example: '+66-123-456-789' },
+        address: {
+          type: 'object',
+          example: {
+            street: '123 Main Street',
+            city: 'Bangkok',
+            province: 'Bangkok',
+            postalCode: '10110',
+            country: 'Thailand'
+          }
+        },
+        logo: { type: 'string', example: 'https://example.com/logo.png', nullable: true },
+        status: { type: 'string', example: 'ACTIVE' },
+        subscriptionStatus: { type: 'string', example: 'TRIAL' },
+        isActive: { type: 'boolean', example: true },
+        createdAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,
@@ -41,6 +69,10 @@ export class StoresController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Store slug already exists',
   })
   async create(@Body() createStoreDto: CreateStoreDto) {
     return this.storesService.create(createStoreDto);
@@ -134,9 +166,23 @@ export class StoresController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.STORE_ADMIN)
   @ApiOperation({ summary: 'Update store (Admin/Store Admin only)' })
+  @ApiBody({ type: UpdateStoreDto })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Store updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: '456e7890-e89b-12d3-a456-426614174001' },
+        name: { type: 'string', example: 'My Updated Store' },
+        slug: { type: 'string', example: 'my-updated-store' },
+        description: { type: 'string', example: 'Updated store description' },
+        email: { type: 'string', example: 'updated@example.com' },
+        phone: { type: 'string', example: '+66-999-888-777' },
+        logo: { type: 'string', example: 'https://example.com/new-logo.png' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-25T16:45:00.000Z' }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,

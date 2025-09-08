@@ -19,7 +19,46 @@ export class SocialLoginController {
 
   @Post('google')
   @ApiOperation({ summary: 'Login with Google' })
-  @ApiResponse({ status: 200, description: 'Google login successful' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Google login successful',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        data: {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', example: '123e4567-e89b-12d3-a456-426614174000' },
+                email: { type: 'string', example: 'user@gmail.com' },
+                name: { type: 'string', example: 'John Doe' },
+                role: { type: 'string', example: 'CUSTOMER_GUEST' },
+                profile: {
+                  type: 'object',
+                  properties: {
+                    avatar: { type: 'string', example: 'https://lh3.googleusercontent.com/a/default-user=s96-c' },
+                    provider: { type: 'string', example: 'google' }
+                  }
+                }
+              }
+            },
+            tokens: {
+              type: 'object',
+              properties: {
+                accessToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+                refreshToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
+              }
+            },
+            isNewUser: { type: 'boolean', example: false }
+          }
+        },
+        message: { type: 'string', example: 'Login successful' }
+      }
+    }
+  })
   async googleLogin(@Body() body: { token: string }) {
     const profile = await this.socialLoginService.verifyGoogleToken(body.token);
     
@@ -54,7 +93,46 @@ export class SocialLoginController {
 
   @Post('facebook')
   @ApiOperation({ summary: 'Login with Facebook' })
-  @ApiResponse({ status: 200, description: 'Facebook login successful' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Facebook login successful',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        data: {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', example: '123e4567-e89b-12d3-a456-426614174000' },
+                email: { type: 'string', example: 'user@facebook.com' },
+                name: { type: 'string', example: 'Jane Smith' },
+                role: { type: 'string', example: 'CUSTOMER_GUEST' },
+                profile: {
+                  type: 'object',
+                  properties: {
+                    avatar: { type: 'string', example: 'https://graph.facebook.com/v12.0/me/picture' },
+                    provider: { type: 'string', example: 'facebook' }
+                  }
+                }
+              }
+            },
+            tokens: {
+              type: 'object',
+              properties: {
+                accessToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+                refreshToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
+              }
+            },
+            isNewUser: { type: 'boolean', example: true }
+          }
+        },
+        message: { type: 'string', example: 'Account created successfully' }
+      }
+    }
+  })
   async facebookLogin(@Body() body: { token: string }) {
     const profile = await this.socialLoginService.verifyFacebookToken(body.token);
     
@@ -91,7 +169,31 @@ export class SocialLoginController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get linked social accounts' })
-  @ApiResponse({ status: 200, description: 'Social accounts retrieved successfully' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Social accounts retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        data: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', example: 'social-account-uuid' },
+              provider: { type: 'string', example: 'google' },
+              providerId: { type: 'string', example: '1234567890' },
+              email: { type: 'string', example: 'user@gmail.com' },
+              name: { type: 'string', example: 'John Doe' },
+              avatar: { type: 'string', example: 'https://lh3.googleusercontent.com/a/default-user=s96-c' },
+              linkedAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' }
+            }
+          }
+        }
+      }
+    }
+  })
   async getSocialAccounts(@Request() req: any) {
     const accounts = await this.socialLoginService.getSocialAccounts(req.user.id);
     return {
@@ -104,7 +206,17 @@ export class SocialLoginController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Link social account to current user' })
-  @ApiResponse({ status: 200, description: 'Social account linked successfully' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Social account linked successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        message: { type: 'string', example: 'google account linked successfully' }
+      }
+    }
+  })
   async linkSocialAccount(
     @Request() req: any,
     @Param('provider') provider: string,
@@ -143,7 +255,17 @@ export class SocialLoginController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Unlink social account' })
-  @ApiResponse({ status: 200, description: 'Social account unlinked successfully' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Social account unlinked successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        message: { type: 'string', example: 'google account unlinked successfully' }
+      }
+    }
+  })
   async unlinkSocialAccount(
     @Request() req: any,
     @Param('provider') provider: string,

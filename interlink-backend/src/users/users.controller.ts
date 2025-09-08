@@ -10,9 +10,11 @@ import {
   Request,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UserRole } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
@@ -87,17 +89,39 @@ export class UsersController {
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create new user (Admin only)' })
-  @ApiResponse({ status: 201, description: 'User created successfully' })
-  async createUser(
-    @Body() createData: {
-      email: string;
-      password: string;
-      name: string;
-      role: UserRole;
-      storeId?: string;
-    },
-  ) {
-    return this.usersService.createUser(createData);
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ 
+    status: 201, 
+    description: 'User created successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: '123e4567-e89b-12d3-a456-426614174000' },
+        email: { type: 'string', example: 'newuser@example.com' },
+        name: { type: 'string', example: 'John Doe' },
+        role: { type: 'string', example: 'STORE_ADMIN' },
+        storeId: { type: 'string', example: '456e7890-e89b-12d3-a456-426614174001', nullable: true },
+        isActive: { type: 'boolean', example: true },
+        hasEnabledTwoFactor: { type: 'boolean', example: false },
+        createdAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        store: {
+          type: 'object',
+          nullable: true,
+          properties: {
+            id: { type: 'string', example: '456e7890-e89b-12d3-a456-426614174001' },
+            name: { type: 'string', example: 'My Store' },
+            slug: { type: 'string', example: 'my-store' }
+          }
+        }
+      }
+    }
+  })
+  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiResponse({ status: 409, description: 'Email already exists' })
+  @ApiResponse({ status: 403, description: 'Insufficient permissions' })
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Get(':id')
@@ -115,17 +139,31 @@ export class UsersController {
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user (Admin only)' })
-  @ApiResponse({ status: 200, description: 'User updated successfully' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'User updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: '123e4567-e89b-12d3-a456-426614174000' },
+        email: { type: 'string', example: 'user@example.com' },
+        name: { type: 'string', example: 'John Smith Updated' },
+        role: { type: 'string', example: 'STORE_STAFF' },
+        storeId: { type: 'string', example: '789e0123-e89b-12d3-a456-426614174002', nullable: true },
+        isActive: { type: 'boolean', example: true },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-25T16:45:00.000Z' }
+      }
+    }
+  })
+  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 403, description: 'Insufficient permissions' })
   async updateUser(
     @Param('id') id: string,
-    @Body() updateData: {
-      name?: string;
-      isActive?: boolean;
-      role?: UserRole;
-      storeId?: string;
-    },
+    @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.usersService.updateUser(id, updateData);
+    return this.usersService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')

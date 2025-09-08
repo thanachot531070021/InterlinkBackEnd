@@ -11,7 +11,7 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -31,9 +31,49 @@ export class ProductsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.STORE_ADMIN)
   @ApiOperation({ summary: 'Create a new product (Admin/Store Admin only)' })
+  @ApiBody({ type: CreateProductDto })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Product created successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: 'product-uuid-789' },
+        name: { type: 'string', example: 'iPhone 15 Pro' },
+        slug: { type: 'string', example: 'iphone-15-pro' },
+        sku: { type: 'string', example: 'APL-IPH15P-256-BLK' },
+        description: { type: 'string', example: 'Latest iPhone with advanced camera system and A17 Pro chip' },
+        brandId: { type: 'string', example: 'apple-brand-uuid' },
+        createdByStoreId: { type: 'string', example: 'store-uuid-456', nullable: true },
+        category: { type: 'string', example: 'Electronics' },
+        price: { type: 'number', example: 39900.00 },
+        images: { 
+          type: 'array', 
+          items: { type: 'string' },
+          example: ['https://example.com/iphone15pro-1.jpg', 'https://example.com/iphone15pro-2.jpg']
+        },
+        attributes: {
+          type: 'object',
+          example: {
+            color: 'Black',
+            storage: '256GB',
+            connectivity: '5G'
+          }
+        },
+        status: { type: 'string', example: 'ACTIVE' },
+        isActive: { type: 'boolean', example: true },
+        createdAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-20T14:30:00.000Z' },
+        brand: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', example: 'apple-brand-uuid' },
+            name: { type: 'string', example: 'Apple' },
+            slug: { type: 'string', example: 'apple' }
+          }
+        }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,
@@ -42,6 +82,10 @@ export class ProductsController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Product SKU already exists',
   })
   async create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
@@ -179,9 +223,36 @@ export class ProductsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.STORE_ADMIN)
   @ApiOperation({ summary: 'Update product (Admin/Store Admin only)' })
+  @ApiBody({ type: UpdateProductDto })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Product updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: 'product-uuid-789' },
+        name: { type: 'string', example: 'iPhone 15 Pro Updated' },
+        slug: { type: 'string', example: 'iphone-15-pro' },
+        sku: { type: 'string', example: 'APL-IPH15P-256-BLK' },
+        description: { type: 'string', example: 'Updated: Latest iPhone with advanced camera system' },
+        price: { type: 'number', example: 41900.00 },
+        category: { type: 'string', example: 'Electronics' },
+        images: { 
+          type: 'array', 
+          items: { type: 'string' },
+          example: ['https://example.com/new-image1.jpg']
+        },
+        status: { type: 'string', example: 'ACTIVE' },
+        updatedAt: { type: 'string', format: 'date-time', example: '2024-01-25T16:45:00.000Z' },
+        brand: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', example: 'Apple' },
+            slug: { type: 'string', example: 'apple' }
+          }
+        }
+      }
+    }
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,

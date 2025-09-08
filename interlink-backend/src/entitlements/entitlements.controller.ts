@@ -85,6 +85,7 @@ export class EntitlementsController {
 
   @Get('store/:storeId')
   @ApiOperation({ summary: 'Get entitlements for a specific store' })
+  @ApiParam({ name: 'storeId', description: 'Store UUID', example: '456e7890-e89b-12d3-a456-426614174001' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of entitlements for the store',
@@ -107,6 +108,7 @@ export class EntitlementsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Get entitlements for a specific brand (Admin only)' })
+  @ApiParam({ name: 'brandId', description: 'Brand UUID', example: 'brand-uuid-789' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of entitlements for the brand',
@@ -129,9 +131,17 @@ export class EntitlementsController {
 
   @Get('check/:storeId/:brandId')
   @ApiOperation({ summary: 'Check if store has access to brand' })
+  @ApiParam({ name: 'storeId', description: 'Store UUID', example: '456e7890-e89b-12d3-a456-426614174001' })
+  @ApiParam({ name: 'brandId', description: 'Brand UUID', example: 'brand-uuid-789' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Boolean indicating if store has brand access',
+    schema: {
+      type: 'object',
+      properties: {
+        hasAccess: { type: 'boolean', example: true }
+      }
+    }
   })
   async checkEntitlement(
     @Param('storeId', ParseUUIDPipe) storeId: string,
