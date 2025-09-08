@@ -28,7 +28,7 @@ export class ProductsService {
             createdAt: 'desc',
           },
         },
-        stocks: {
+        storeStock: {
           take: 10,
           include: {
             store: true,
@@ -163,7 +163,7 @@ export class ProductsService {
         _count: {
           select: {
             variants: true,
-            stocks: true,
+            storeStock: true,
             orderItems: true,
             reservations: true,
           },
@@ -191,7 +191,7 @@ export class ProductsService {
       stats: {
         totalVariants: product._count.variants,
         activeVariants,
-        totalStores: product._count.stocks,
+        totalStores: product._count.storeStock,
         totalOrders: product._count.orderItems,
         totalReservations: product._count.reservations,
         stockSummary: {

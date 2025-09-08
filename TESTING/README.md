@@ -18,6 +18,8 @@ TESTING/
 ├── 09_Store_Brand_Entitlements/      # การทดสอบ Store-Brand Entitlements APIs
 ├── 10_Stock_Management/              # ✅ การทดสอบ Stock Management APIs (Phase 4)
 ├── 11_Order_Management/              # ✅ การทดสอบ Order Management APIs (Phase 4)
+├── 12_File_Upload/                   # ✅ การทดสอบ File Upload System (Phase 5)
+├── 13_Storefront_APIs/               # ✅ การทดสอบ Storefront APIs (Phase 5)
 └── 99_Results/                       # ผลการทดสอบล่าสุด
 ```
 
@@ -47,6 +49,8 @@ TESTING/
 9. **Store-Brand Entitlements** (`09_Store_Brand_Entitlements/`) - ทดสอบ Entitlement APIs
 10. **✅ Stock Management** (`10_Stock_Management/`) - ทดสอบ Stock & Reservation APIs (Phase 4)
 11. **✅ Order Management** (`11_Order_Management/`) - ทดสอบ Order Processing APIs (Phase 4)
+12. **✅ File Upload** (`12_File_Upload/`) - ทดสอบ File Upload & Storage Providers (Phase 5)
+13. **✅ Storefront APIs** (`13_Storefront_APIs/`) - ทดสอบ Public E-commerce APIs (Phase 5)
 
 ## 📊 มาตรฐานการทดสอบ
 
@@ -81,7 +85,7 @@ TESTING/
 
 ## 📊 สรุปจำนวนการทดสอบ
 
-**รวม: 116+ Test Cases**
+**รวม: 140+ Test Cases**
 - 🔐 Authentication: 8 tests
 - 🛡️ Authorization/RBAC: 8 tests  
 - ✅ API Validation: 13 tests
@@ -93,8 +97,10 @@ TESTING/
 - 🔗 Store-Brand Entitlements: 12 tests
 - 📦 **✅ Stock Management**: 11+ tests (Phase 4)
 - 🛒 **✅ Order Management**: 10+ tests (Phase 4)
+- 📁 **✅ File Upload**: 12+ tests (Phase 5)
+- 🛒 **✅ Storefront APIs**: 12+ tests (Phase 5)
 
 ---
 
 *Last Updated: 2025-09-07*  
-*Status: 🧪 Phase 4 Testing Suite Ready - 116+ Test Cases Available*
+*Status: 🧪 Phase 5 Testing Suite Ready - 140+ Test Cases Available*

@@ -23,7 +23,9 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  store Store? @relation(fields: [storeId], references: [id])
+  store       Store?       @relation(fields: [storeId], references: [id])
+  profile     UserProfile?
+  fileUploads FileUpload[]
 
   @@map("users")
 }
@@ -38,6 +40,22 @@ enum UserRole {
   @@map("user_role")
 }
 
+// User profile (extended info)
+model UserProfile {
+  id        String  @id @default(uuid())
+  userId    String  @unique @map("user_id")
+  firstName String? @map("first_name")
+  lastName  String? @map("last_name")
+  avatar    String?
+  phone     String?
+  address   Json?
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_profiles")
+}
+
 // Store management
 model Store {
   id               String            @id @default(uuid())
@@ -48,6 +66,9 @@ model Store {
   phone            String?
   address          Json?
   logo             String?
+  website          String?
+  socialMedia      Json?
+  businessHours    Json?
   status           StoreStatus       @default(ACTIVE)
   subscriptionStatus SubscriptionStatus @default(TRIAL) @map("subscription_status")
   createdAt        DateTime          @default(now()) @map("created_at")
@@ -164,17 +185,20 @@ model Product {
   createdByStoreId  String?   @map("created_by_store_id") // NULL = central product
   approvalQueueId   String?   @map("approval_queue_id")   // NULL = approved/central
   category          String
+  tags              Json?
   price             Decimal   @db.Decimal(10, 2)
   images            Json?
+  specifications    Json?
   attributes        Json?
   status            ProductStatus @default(ACTIVE)
+  isActive          Boolean   @default(true) @map("is_active")
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
 
   // Relations
   brand      Brand @relation(fields: [brandId], references: [id])
   variants   ProductVariant[]
-  stocks     StoreStock[]
+  storeStock StoreStock[]
   orderItems OrderItem[]
   reservations Reservation[]
   approvalQueue ProductApprovalQueue? @relation(fields: [approvalQueueId], references: [id])
@@ -202,12 +226,13 @@ model ProductVariant {
   attributes Json     // e.g., {"color": "red", "size": "large"}
   price      Decimal? @db.Decimal(10, 2) // Override product price
   status     ProductVariantStatus @default(ACTIVE)
+  isActive   Boolean  @default(true) @map("is_active")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
   // Relations
   product Product @relation(fields: [productId], references: [id])
-  stocks  StoreStock[]
+  storeStock StoreStock[]
   orderItems OrderItem[]
   reservations Reservation[]
 
@@ -439,6 +464,29 @@ enum PaymentStatus {
   REFUNDED
 
   @@map("payment_status")
+}
+
+// File upload management
+model FileUpload {
+  id           String   @id @default(uuid())
+  filename     String
+  originalName String   @map("original_name")
+  mimeType     String   @map("mime_type")
+  size         Int
+  url          String
+  path         String   @unique
+  provider     String   // 'local' or 's3'
+  type         String   // 'image', 'document', 'avatar'
+  folder       String
+  uploadedBy   String?  @map("uploaded_by")
+  uploadedAt   DateTime @default(now()) @map("uploaded_at")
+
+  // Relations
+  uploadedByUser User? @relation(fields: [uploadedBy], references: [id])
+
+  @@index([uploadedBy, type])
+  @@index([type, uploadedAt])
+  @@map("file_uploads")
 }
 
 // Audit log

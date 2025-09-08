@@ -10,6 +10,8 @@
 - ✅ API สำหรับจัดการร้านค้า สินค้า และสิทธิ์แบรนด์ (เสร็จสมบูรณ์)
 - ✅ **Stock Management APIs**: ระบบจัดการสต๊อกแบบ atomic operations (เสร็จสมบูรณ์)
 - ✅ **Order Management APIs**: ระบบการสั่งซื้อพร้อม stock reservation (เสร็จสมบูรณ์)
+- ✅ **Storefront APIs**: ระบบ E-commerce หน้าร้านสำหรับลูกค้า (เสร็จสมบูรณ์)
+- ✅ **File Upload System**: ระบบอัพโหลดไฟล์แบบ configurable (Local/S3) (เสร็จสมบูรณ์)
 - 📋 ระบบสมาชิกแบบ Subscription สำหรับร้านค้า (รอพัฒนา)
 - 📋 **Store Product Creation**: API สำหรับให้ร้านค้าสร้างสินค้าเองตามเงื่อนไข (รอพัฒนา)
 
@@ -44,20 +46,21 @@
 
 ## Backend Modules
 ```
-├── auth/                    # Authentication & Authorization
-├── users/                   # User management
-├── stores/                  # Store management
-├── brands/                  # Brand management
-├── products/                # Product catalog
-├── entitlements/            # Store-Brand permissions
-├── 🆕 product-permissions/  # Store product creation permissions
+├── auth/                    # ✅ Authentication & Authorization (เสร็จสมบูรณ์)
+├── users/                   # ✅ User management (เสร็จสมบูรณ์)
+├── stores/                  # ✅ Store management (เสร็จสมบูรณ์)
+├── brands/                  # ✅ Brand management (เสร็จสมบูรณ์)
+├── products/                # ✅ Product catalog (เสร็จสมบูรณ์)
+├── entitlements/            # ✅ Store-Brand permissions (เสร็จสมบูรณ์)
+├── 🆕 product-permissions/  # Store product creation permissions (รอพัฒนา)
 ├── stock/                   # ✅ Inventory management (Phase 4) - เสร็จสมบูรณ์
 ├── orders/                  # ✅ Order processing (Phase 4) - เสร็จสมบูรณ์
-├── billing/                 # Subscription & payments
-├── payments/                # Payment processing
-├── reporting/               # Analytics & reports
-├── notifications/           # Email & alerts
-└── uploads/                 # File upload handling
+├── storefront/              # ✅ Public storefront APIs (Phase 5) - เสร็จสมบูรณ์
+├── uploads/                 # ✅ File upload handling (Phase 5) - เสร็จสมบูรณ์
+├── billing/                 # Subscription & payments (รอพัฒนา)
+├── payments/                # Payment processing (รอพัฒนา)
+├── reporting/               # Analytics & reports (รอพัฒนา)
+└── notifications/           # Email & alerts (รอพัฒนา)
 ```
 
 ## Database Design

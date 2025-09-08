@@ -12,6 +12,8 @@ import { ProductsModule } from './products/products.module';
 import { EntitlementsModule } from './entitlements/entitlements.module';
 import { StockModule } from './stock/stock.module';
 import { OrdersModule } from './orders/orders.module';
+import { UploadsModule } from './uploads/uploads.module';
+import { StorefrontModule } from './storefront/storefront.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -45,6 +47,10 @@ import { AppService } from './app.service';
     // Phase 4 modules - Stock & Order Management
     StockModule,
     OrdersModule,
+
+    // Phase 5 modules - File Upload & Storefront
+    UploadsModule,
+    StorefrontModule,
   ],
   controllers: [AppController],
   providers: [
