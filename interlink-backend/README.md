@@ -22,7 +22,7 @@
 ### 🏗️ System Architecture
 - **Framework**: NestJS (TypeScript)
 - **Database**: PostgreSQL + Prisma ORM
-- **Authentication**: JWT + OTP
+- **Authentication**: JWT + OTP + 2FA (TOTP) + Social Login
 - **File Storage**: Local/S3 Configurable
 - **API Documentation**: Swagger/OpenAPI
 - **Development**: Docker Compose
@@ -240,6 +240,21 @@ This creates a complete testing environment for all Phase 3 APIs (95 test cases 
 - `POST /api/uploads/file` - Upload file (images/documents)
 - `POST /api/uploads/product-image` - Upload product image
 
+### 🔐 Two-Factor Authentication APIs (6+ endpoints)
+- `GET /api/auth/2fa/status` - Check 2FA status
+- `POST /api/auth/2fa/generate` - Generate 2FA secret + QR code
+- `POST /api/auth/2fa/enable` - Enable 2FA with token verification
+- `DELETE /api/auth/2fa/disable` - Disable 2FA
+- `POST /api/auth/2fa/verify` - Verify 2FA token/backup code
+- `POST /api/auth/2fa/backup-codes/regenerate` - Regenerate backup codes
+
+### 🌐 Social Login APIs (5+ endpoints)
+- `POST /api/auth/social/google` - Google OAuth login
+- `POST /api/auth/social/facebook` - Facebook OAuth login
+- `GET /api/auth/social/accounts` - Get linked social accounts
+- `POST /api/auth/social/link/{provider}` - Link social account
+- `DELETE /api/auth/social/unlink/{provider}` - Unlink social account
+
 ### 🛍️ Storefront APIs (Public - 4+ endpoints)
 - `GET /api/storefront/:storeSlug` - Store information
 - `GET /api/storefront/:storeSlug/products` - Store products
@@ -274,7 +289,7 @@ npm run test:cov
 npm run test:e2e
 ```
 
-### 🧪 Comprehensive Testing Suite (140+ Test Cases)
+### 🧪 Comprehensive Testing Suite (160+ Test Cases)
 
 **Location**: `TESTING/` folder with organized test categories:
 
@@ -295,9 +310,11 @@ npm run test:e2e
 - **📊 Stock Management**: 11+ tests (`10_Stock_Management/`)
 - **🛒 Order Management**: 10+ tests (`11_Order_Management/`)
 
-#### Phase 5: E-commerce & File Tests (24+ test cases)
+#### Phase 5: E-commerce & File Tests (48+ test cases)
 - **📁 File Upload**: 12+ tests (`12_File_Upload/`)
 - **🛍️ Storefront APIs**: 12+ tests (`13_Storefront_APIs/`)
+- **🔐 Two-Factor Authentication**: 12+ tests (`14_Two_Factor_Auth/`)
+- **🌐 Social Login Integration**: 12+ tests (`15_Social_Login/`)
 
 ### 🎯 Testing Prerequisites
 1. **Backend server**: `npm run start:dev` (http://localhost:3001)
@@ -374,6 +391,17 @@ JWT_SECRET="your-jwt-secret-key"
 JWT_REFRESH_SECRET="your-refresh-secret-key"
 JWT_EXPIRATION="15m"
 JWT_REFRESH_EXPIRATION="7d"
+
+# Two-Factor Authentication (2FA)
+2FA_ENABLED=true
+TOTP_SERVICE_NAME="Interlink System"
+TOTP_ISSUER="Interlink"
+
+# Social Login Integration
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+FACEBOOK_APP_ID="your-facebook-app-id"
+FACEBOOK_APP_SECRET="your-facebook-app-secret"
 ```
 
 ### ⚙️ Application Settings

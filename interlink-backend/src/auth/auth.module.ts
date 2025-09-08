@@ -8,6 +8,10 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { RolesGuard } from './roles.guard';
 import { UsersModule } from '../users/users.module';
+import { TwoFactorService } from './two-factor/two-factor.service';
+import { TwoFactorController } from './two-factor/two-factor.controller';
+import { SocialLoginService } from './social/social-login.service';
+import { SocialLoginController } from './social/social-login.controller';
 
 @Module({
   imports: [
@@ -24,8 +28,25 @@ import { UsersModule } from '../users/users.module';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
-  exports: [AuthService, JwtAuthGuard, RolesGuard],
+  controllers: [
+    AuthController,
+    TwoFactorController,
+    SocialLoginController,
+  ],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    JwtAuthGuard,
+    RolesGuard,
+    TwoFactorService,
+    SocialLoginService,
+  ],
+  exports: [
+    AuthService,
+    JwtAuthGuard,
+    RolesGuard,
+    TwoFactorService,
+    SocialLoginService,
+  ],
 })
 export class AuthModule {}

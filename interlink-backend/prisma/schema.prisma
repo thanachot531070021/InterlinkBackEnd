@@ -14,11 +14,17 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  password  String
+  password  String?  // Nullable for social login users
   name      String
   role      UserRole
   storeId   String?  @map("store_id")
   isActive  Boolean  @default(true) @map("is_active")
+  twoFactorEnabled Boolean @default(false) @map("two_factor_enabled")
+  twoFactorSecret String? @map("two_factor_secret") // For TOTP
+  socialProvider String? @map("social_provider") // google, facebook, etc.
+  socialId    String? @map("social_id") // ID from social provider
+  emailVerified Boolean @default(false) @map("email_verified")
+  lastLoginAt DateTime? @map("last_login_at")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -26,7 +32,10 @@ model User {
   store       Store?       @relation(fields: [storeId], references: [id])
   profile     UserProfile?
   fileUploads FileUpload[]
+  twoFactorBackupCodes TwoFactorBackupCode[]
+  socialAccounts SocialAccount[]
 
+  @@unique([socialProvider, socialId])
   @@map("users")
 }
 
@@ -487,6 +496,86 @@ model FileUpload {
   @@index([uploadedBy, type])
   @@index([type, uploadedAt])
   @@map("file_uploads")
+}
+
+// Two-Factor Authentication backup codes
+model TwoFactorBackupCode {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  code     String   // Hashed backup code
+  isUsed   Boolean  @default(false) @map("is_used")
+  createdAt DateTime @default(now()) @map("created_at")
+  usedAt   DateTime? @map("used_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("two_factor_backup_codes")
+}
+
+// Social Account connections
+model SocialAccount {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  provider   String   // google, facebook, github, etc.
+  providerId String   @map("provider_id") // ID from social provider
+  email      String?  // Email from social provider
+  name       String?  // Name from social provider
+  avatar     String?  // Avatar URL from social provider
+  accessToken String? @map("access_token") // For API access
+  refreshToken String? @map("refresh_token") // For token refresh
+  expiresAt  DateTime? @map("expires_at") // Token expiration
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+  @@index([userId])
+  @@map("social_accounts")
+}
+
+// Email verification tokens
+model EmailVerificationToken {
+  id        String   @id @default(uuid())
+  email     String   
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@index([token])
+  @@map("email_verification_tokens")
+}
+
+// Password reset tokens
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  email     String   
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@index([token])
+  @@map("password_reset_tokens")
+}
+
+// Login attempts and rate limiting
+model LoginAttempt {
+  id        String   @id @default(uuid())
+  email     String?
+  ipAddress String   @map("ip_address")
+  userAgent String?  @map("user_agent")
+  success   Boolean
+  reason    String?  // failed_password, user_not_found, account_locked, etc.
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email, createdAt])
+  @@index([ipAddress, createdAt])
+  @@map("login_attempts")
 }
 
 // Audit log

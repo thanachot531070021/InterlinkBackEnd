@@ -12,6 +12,8 @@
 - ✅ **Order Management APIs**: ระบบการสั่งซื้อพร้อม stock reservation (เสร็จสมบูรณ์)
 - ✅ **Storefront APIs**: ระบบ E-commerce หน้าร้านสำหรับลูกค้า (เสร็จสมบูรณ์)
 - ✅ **File Upload System**: ระบบอัพโหลดไฟล์แบบ configurable (Local/S3) (เสร็จสมบูรณ์)
+- ✅ **Two-Factor Authentication (2FA)**: ระบบ 2FA แบบ TOTP พร้อม QR Code และ Backup Codes (เสร็จสมบูรณ์)
+- ✅ **Social Login Integration**: Google OAuth และ Facebook Login สำหรับ CUSTOMER_GUEST (เสร็จสมบูรณ์)
 - 📋 ระบบสมาชิกแบบ Subscription สำหรับร้านค้า (รอพัฒนา)
 - 📋 **Store Product Creation**: API สำหรับให้ร้านค้าสร้างสินค้าเองตามเงื่อนไข (รอพัฒนา)
 
@@ -39,7 +41,7 @@
 - **Framework**: NestJS แบบ Modular Monolith
 - **Database**: PostgreSQL (1 instance)
 - **ORM**: Prisma
-- **Authentication**: JWT + OTP
+- **Authentication**: JWT + OTP + 2FA (TOTP) + Social Login
 - **File Storage**: S3-compatible หรือ local storage
 - **Background Jobs**: node-cron (in-process scheduler)
 - **API Documentation**: Swagger/OpenAPI
@@ -47,6 +49,8 @@
 ## Backend Modules
 ```
 ├── auth/                    # ✅ Authentication & Authorization (เสร็จสมบูรณ์)
+│   ├── two-factor/         # ✅ 2FA TOTP System (เสร็จสมบูรณ์)
+│   └── social/             # ✅ Social Login Integration (เสร็จสมบูรณ์)
 ├── users/                   # ✅ User management (เสร็จสมบูรณ์)
 ├── stores/                  # ✅ Store management (เสร็จสมบูรณ์)
 ├── brands/                  # ✅ Brand management (เสร็จสมบูรณ์)
@@ -235,7 +239,9 @@ reviewed_at: TIMESTAMP
 - **JWT** (access + refresh tokens)
 - **RBAC**: ADMIN, STORE_ADMIN, STORE_STAFF, SALE, CUSTOMER_GUEST
 - **OTP**: Email OTP (6 หลัก) + rate limiting
-- **SSO**: Google Sign-In (เริ่มต้น)
+- **✅ 2FA**: TOTP-based Two-Factor Authentication with backup codes (เสร็จสมบูรณ์)
+- **✅ Social Login**: Google OAuth และ Facebook Login สำหรับ CUSTOMER_GUEST (เสร็จสมบูรณ์)
+- **SSO**: Multi-provider social authentication support
 
 ### Data Security
 - แยกสิทธิ์ตาม role และ store_id

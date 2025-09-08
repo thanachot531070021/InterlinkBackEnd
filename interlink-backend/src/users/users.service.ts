@@ -53,12 +53,65 @@ export class UsersService {
     name: string;
     isActive: boolean;
     role: UserRole;
+    storeId: string;
   }>): Promise<User> {
     return this.database.user.update({
       where: { id },
       data,
       include: {
         store: true,
+        profile: true,
+      },
+    });
+  }
+
+  async deleteUser(id: string): Promise<User> {
+    // Soft delete by setting isActive to false
+    return this.database.user.update({
+      where: { id },
+      data: { isActive: false },
+      include: {
+        store: true,
+        profile: true,
+      },
+    });
+  }
+
+  async searchUsers(filters: {
+    query?: string;
+    role?: UserRole;
+    storeId?: string;
+    isActive?: boolean;
+  }): Promise<User[]> {
+    const where: any = {};
+
+    if (filters.query) {
+      where.OR = [
+        { name: { contains: filters.query, mode: 'insensitive' } },
+        { email: { contains: filters.query, mode: 'insensitive' } },
+      ];
+    }
+
+    if (filters.role) {
+      where.role = filters.role;
+    }
+
+    if (filters.storeId) {
+      where.storeId = filters.storeId;
+    }
+
+    if (filters.isActive !== undefined) {
+      where.isActive = filters.isActive;
+    }
+
+    return this.database.user.findMany({
+      where,
+      include: {
+        store: true,
+        profile: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
@@ -68,6 +121,10 @@ export class UsersService {
       where: { storeId },
       include: {
         store: true,
+        profile: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
@@ -76,10 +133,59 @@ export class UsersService {
     return this.database.user.findMany({
       include: {
         store: true,
+        profile: true,
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
+  }
+
+  async getUserStats(): Promise<{
+    total: number;
+    active: number;
+    inactive: number;
+    byRole: Record<string, number>;
+    byStore: Record<string, number>;
+  }> {
+    const [total, active, roleStats, storeStats] = await Promise.all([
+      this.database.user.count(),
+      this.database.user.count({ where: { isActive: true } }),
+      this.database.user.groupBy({
+        by: ['role'],
+        _count: {
+          id: true,
+        },
+      }),
+      this.database.user.groupBy({
+        by: ['storeId'],
+        _count: {
+          id: true,
+        },
+        where: {
+          storeId: { not: null },
+        },
+      }),
+    ]);
+
+    const byRole = roleStats.reduce((acc, stat) => {
+      acc[stat.role] = stat._count.id;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const byStore = storeStats.reduce((acc, stat) => {
+      if (stat.storeId) {
+        acc[stat.storeId] = stat._count.id;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+    return {
+      total,
+      active,
+      inactive: total - active,
+      byRole,
+      byStore,
+    };
   }
 }

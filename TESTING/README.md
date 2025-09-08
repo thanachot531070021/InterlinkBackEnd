@@ -20,6 +20,8 @@ TESTING/
 ├── 11_Order_Management/              # ✅ การทดสอบ Order Management APIs (Phase 4)
 ├── 12_File_Upload/                   # ✅ การทดสอบ File Upload System (Phase 5)
 ├── 13_Storefront_APIs/               # ✅ การทดสอบ Storefront APIs (Phase 5)
+├── 14_Two_Factor_Auth/               # ✅ การทดสอบ Two-Factor Authentication (2FA)
+├── 15_Social_Login/                  # ✅ การทดสอบ Social Login Integration
 └── 99_Results/                       # ผลการทดสอบล่าสุด
 ```
 
@@ -51,6 +53,8 @@ TESTING/
 11. **✅ Order Management** (`11_Order_Management/`) - ทดสอบ Order Processing APIs (Phase 4)
 12. **✅ File Upload** (`12_File_Upload/`) - ทดสอบ File Upload & Storage Providers (Phase 5)
 13. **✅ Storefront APIs** (`13_Storefront_APIs/`) - ทดสอบ Public E-commerce APIs (Phase 5)
+14. **✅ Two-Factor Authentication** (`14_Two_Factor_Auth/`) - ทดสอบ 2FA TOTP & Backup Codes
+15. **✅ Social Login** (`15_Social_Login/`) - ทดสอบ Google/Facebook Login Integration
 
 ## 📊 มาตรฐานการทดสอบ
 
