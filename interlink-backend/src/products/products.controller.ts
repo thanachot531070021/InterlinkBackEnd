@@ -18,6 +18,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Public } from '../auth/public.decorator';
 import { UserRole } from '@prisma/client';
 
 @ApiTags('products')
@@ -92,7 +93,11 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all products' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get all products (Public)',
+    description: 'Public endpoint to browse all products without authentication - ideal for product discovery'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of all products',
@@ -102,7 +107,11 @@ export class ProductsController {
   }
 
   @Get('search')
-  @ApiOperation({ summary: 'Search products with filters' })
+  @Public()
+  @ApiOperation({
+    summary: 'Search products with filters (Public)',
+    description: 'Public endpoint to search and filter products without authentication - supports multiple criteria'
+  })
   @ApiQuery({ name: 'search', required: false, description: 'Search text' })
   @ApiQuery({ name: 'brandId', required: false, description: 'Filter by brand ID' })
   @ApiQuery({ name: 'category', required: false, description: 'Filter by category' })
@@ -120,8 +129,9 @@ export class ProductsController {
   }
 
   @Get('active')
-  @ApiOperation({ 
-    summary: 'Get active products only (Public access)', 
+  @Public()
+  @ApiOperation({
+    summary: 'Get active products only (Public)',
     description: 'Public endpoint to view active products without authentication - useful for browsing before login'
   })
   @ApiResponse({
@@ -139,8 +149,8 @@ export class ProductsController {
           description: { type: 'string', example: 'Latest iPhone with advanced camera system' },
           category: { type: 'string', example: 'Electronics' },
           price: { type: 'number', example: 39900.00 },
-          images: { 
-            type: 'array', 
+          images: {
+            type: 'array',
             items: { type: 'string' },
             example: ['https://example.com/iphone15pro-1.jpg']
           },
@@ -163,7 +173,11 @@ export class ProductsController {
   }
 
   @Get('brand/:brandId')
-  @ApiOperation({ summary: 'Get products by brand ID' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get products by brand ID (Public)',
+    description: 'Public endpoint to view all products from a specific brand without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of products for the specified brand',
@@ -173,7 +187,11 @@ export class ProductsController {
   }
 
   @Get('store/:storeId')
-  @ApiOperation({ summary: 'Get products created by specific store' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get products created by specific store (Public)',
+    description: 'Public endpoint to view products created by a specific store without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of store-created products',
@@ -183,7 +201,11 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get product by ID with details' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get product by ID with details (Public)',
+    description: 'Public endpoint to view detailed product information without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Product details with relationships',
@@ -217,7 +239,11 @@ export class ProductsController {
   }
 
   @Get('slug/:slug')
-  @ApiOperation({ summary: 'Get product by slug' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get product by slug (Public)',
+    description: 'Public endpoint to find product using SEO-friendly slug without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Product found by slug',
@@ -235,7 +261,11 @@ export class ProductsController {
   }
 
   @Get('sku/:sku')
-  @ApiOperation({ summary: 'Get product by SKU' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get product by SKU (Public)',
+    description: 'Public endpoint to find product using SKU code without authentication - useful for barcode scanning'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Product found by SKU',

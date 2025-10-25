@@ -17,6 +17,7 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Public } from '../auth/public.decorator';
 import { UserRole } from '@prisma/client';
 
 @ApiTags('stores')
@@ -91,7 +92,11 @@ export class StoresController {
   }
 
   @Get('active')
-  @ApiOperation({ summary: 'Get active stores only' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get active stores only (Public)',
+    description: 'Public endpoint to browse active stores without authentication - discover shops before login'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of active stores',
@@ -101,7 +106,11 @@ export class StoresController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get store by ID with details' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get store by ID with details (Public)',
+    description: 'Public endpoint to view store details without authentication - explore store information'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Store details with relationships',
@@ -135,7 +144,11 @@ export class StoresController {
   }
 
   @Get(':id/brands')
-  @ApiOperation({ summary: 'Get store brand entitlements' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get store brand entitlements (Public)',
+    description: 'Public endpoint to see which brands are available in this store without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of brands this store has access to',
@@ -145,7 +158,11 @@ export class StoresController {
   }
 
   @Get('slug/:slug')
-  @ApiOperation({ summary: 'Get store by slug' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get store by slug (Public)',
+    description: 'Public endpoint to find store using SEO-friendly slug without authentication - perfect for storefront URLs'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Store found by slug',

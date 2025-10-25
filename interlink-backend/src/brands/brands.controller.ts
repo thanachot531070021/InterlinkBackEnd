@@ -17,6 +17,7 @@ import { UpdateBrandDto } from './dto/update-brand.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Public } from '../auth/public.decorator';
 import { UserRole } from '@prisma/client';
 
 @ApiTags('brands')
@@ -65,7 +66,11 @@ export class BrandsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all brands' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get all brands (Public)',
+    description: 'Public endpoint to browse all brands without authentication - no login required'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of all brands',
@@ -75,7 +80,11 @@ export class BrandsController {
   }
 
   @Get('active')
-  @ApiOperation({ summary: 'Get active brands only' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get active brands only (Public)',
+    description: 'Public endpoint to browse active brands without authentication - perfect for storefront display'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of active brands',
@@ -85,7 +94,11 @@ export class BrandsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get brand by ID with details' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get brand by ID with details (Public)',
+    description: 'Public endpoint to view brand details and products without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Brand details with relationships',
@@ -119,7 +132,11 @@ export class BrandsController {
   }
 
   @Get('slug/:slug')
-  @ApiOperation({ summary: 'Get brand by slug' })
+  @Public()
+  @ApiOperation({
+    summary: 'Get brand by slug (Public)',
+    description: 'Public endpoint to find brand using SEO-friendly slug without authentication'
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Brand found by slug',

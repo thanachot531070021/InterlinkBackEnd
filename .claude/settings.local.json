@@ -17,7 +17,12 @@
       "Bash(powershell:*)",
       "Bash(npx prisma migrate:*)",
       "Bash(npx prisma:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(pkill:*)",
+      "Bash(timeout 5 npm run start:dev)",
+      "WebFetch(domain:localhost)",
+      "Bash(npx kill-port:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

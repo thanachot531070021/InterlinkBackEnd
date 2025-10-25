@@ -19,8 +19,76 @@ import { StorefrontSearchDto, ProductDetailDto, ProductAvailabilityDto } from '.
 export class StorefrontController {
   constructor(private storefrontService: StorefrontService) {}
 
+  // Health check for storefront - MUST BE FIRST before :storeSlug route
+  @Get('health')
+  @ApiOperation({
+    summary: 'Storefront health check (Public)',
+    description: 'Public endpoint to check storefront service status'
+  })
+  @ApiResponse({ status: 200, description: 'Storefront is healthy' })
+  async healthCheck() {
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      service: 'storefront',
+    };
+  }
+
+  // Get all products - MUST BE BEFORE :storeSlug route
+  @Get('products/all')
+  @ApiOperation({
+    summary: 'Get all active products (Public access)',
+    description: 'Public endpoint to browse all active products without authentication - useful for product catalog browsing'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'All active products retrieved successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        products: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', example: 'product-uuid-789' },
+              name: { type: 'string', example: 'iPhone 15 Pro' },
+              slug: { type: 'string', example: 'iphone-15-pro' },
+              sku: { type: 'string', example: 'APL-IPH15P-256-BLK' },
+              description: { type: 'string', example: 'Latest iPhone with advanced camera system' },
+              category: { type: 'string', example: 'Electronics' },
+              price: { type: 'number', example: 39900.00 },
+              images: {
+                type: 'array',
+                items: { type: 'string' },
+                example: ['https://example.com/iphone15pro-1.jpg']
+              },
+              brand: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string', example: 'brand-uuid-789' },
+                  name: { type: 'string', example: 'Apple' },
+                  slug: { type: 'string', example: 'apple' }
+                }
+              },
+              status: { type: 'string', example: 'ACTIVE' },
+              isActive: { type: 'boolean', example: true }
+            }
+          }
+        },
+        total: { type: 'number', example: 150 }
+      }
+    }
+  })
+  async getAllActiveProducts() {
+    return this.storefrontService.getAllActiveProducts();
+  }
+
   @Get(':storeSlug')
-  @ApiOperation({ summary: 'Get store information' })
+  @ApiOperation({
+    summary: 'Get store information (Public)',
+    description: 'Public endpoint to view store details without authentication - perfect for storefront discovery'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier', example: 'my-awesome-store' })
   @ApiResponse({ 
     status: 200, 
@@ -64,7 +132,10 @@ export class StorefrontController {
   }
 
   @Get(':storeSlug/products')
-  @ApiOperation({ summary: 'Get store product catalog' })
+  @ApiOperation({
+    summary: 'Get store product catalog (Public)',
+    description: 'Public endpoint to browse store products without authentication - supports filters and search'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier', example: 'my-awesome-store' })
   @ApiQuery({ name: 'search', required: false, description: 'Search term for products', example: 'iPhone' })
   @ApiQuery({ name: 'category', required: false, description: 'Filter by category', example: 'Electronics' })
@@ -134,7 +205,10 @@ export class StorefrontController {
   }
 
   @Get(':storeSlug/products/:productSlug')
-  @ApiOperation({ summary: 'Get product details' })
+  @ApiOperation({
+    summary: 'Get product details (Public)',
+    description: 'Public endpoint to view detailed product information without authentication - includes related products'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier', example: 'my-awesome-store' })
   @ApiParam({ name: 'productSlug', description: 'Product slug identifier', example: 'iphone-15-pro' })
   @ApiResponse({ 
@@ -203,7 +277,10 @@ export class StorefrontController {
   }
 
   @Post(':storeSlug/products/check-availability')
-  @ApiOperation({ summary: 'Check product availability' })
+  @ApiOperation({
+    summary: 'Check product availability (Public)',
+    description: 'Public endpoint to verify product stock availability without authentication - useful before checkout'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier' })
   @ApiResponse({ status: 200, description: 'Product availability checked successfully' })
   @ApiResponse({ status: 404, description: 'Store not found' })
@@ -218,7 +295,10 @@ export class StorefrontController {
   }
 
   @Get(':storeSlug/categories')
-  @ApiOperation({ summary: 'Get store categories' })
+  @ApiOperation({
+    summary: 'Get store categories (Public)',
+    description: 'Public endpoint to view product categories in store without authentication'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier' })
   @ApiResponse({ status: 200, description: 'Store categories retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Store not found' })
@@ -227,7 +307,10 @@ export class StorefrontController {
   }
 
   @Get(':storeSlug/brands')
-  @ApiOperation({ summary: 'Get store brands' })
+  @ApiOperation({
+    summary: 'Get store brands (Public)',
+    description: 'Public endpoint to view brands available in store without authentication'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier' })
   @ApiResponse({ status: 200, description: 'Store brands retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Store not found' })
@@ -236,7 +319,10 @@ export class StorefrontController {
   }
 
   @Get(':storeSlug/search/suggestions')
-  @ApiOperation({ summary: 'Get search suggestions (autocomplete)' })
+  @ApiOperation({
+    summary: 'Get search suggestions (Public)',
+    description: 'Public endpoint for autocomplete search suggestions without authentication - helps users find products quickly'
+  })
   @ApiParam({ name: 'storeSlug', description: 'Store slug identifier' })
   @ApiQuery({ name: 'q', description: 'Search query (minimum 2 characters)' })
   @ApiQuery({ name: 'limit', required: false, description: 'Number of suggestions (default: 10)' })
@@ -250,64 +336,4 @@ export class StorefrontController {
     return this.storefrontService.getSearchSuggestions(storeSlug, query, limit);
   }
 
-  @Get('products/all')
-  @ApiOperation({ 
-    summary: 'Get all active products (Public access)', 
-    description: 'Public endpoint to browse all active products without authentication - useful for product catalog browsing'
-  })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'All active products retrieved successfully',
-    schema: {
-      type: 'object',
-      properties: {
-        products: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              id: { type: 'string', example: 'product-uuid-789' },
-              name: { type: 'string', example: 'iPhone 15 Pro' },
-              slug: { type: 'string', example: 'iphone-15-pro' },
-              sku: { type: 'string', example: 'APL-IPH15P-256-BLK' },
-              description: { type: 'string', example: 'Latest iPhone with advanced camera system' },
-              category: { type: 'string', example: 'Electronics' },
-              price: { type: 'number', example: 39900.00 },
-              images: {
-                type: 'array',
-                items: { type: 'string' },
-                example: ['https://example.com/iphone15pro-1.jpg']
-              },
-              brand: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string', example: 'brand-uuid-789' },
-                  name: { type: 'string', example: 'Apple' },
-                  slug: { type: 'string', example: 'apple' }
-                }
-              },
-              status: { type: 'string', example: 'ACTIVE' },
-              isActive: { type: 'boolean', example: true }
-            }
-          }
-        },
-        total: { type: 'number', example: 150 }
-      }
-    }
-  })
-  async getAllActiveProducts() {
-    return this.storefrontService.getAllActiveProducts();
-  }
-
-  // Health check for storefront
-  @Get('health')
-  @ApiOperation({ summary: 'Storefront health check' })
-  @ApiResponse({ status: 200, description: 'Storefront is healthy' })
-  async healthCheck() {
-    return {
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      service: 'storefront',
-    };
-  }
 }
