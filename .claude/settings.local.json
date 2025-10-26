@@ -24,7 +24,12 @@
       "Bash(npx kill-port:*)",
       "Bash(timeout:*)",
       "Read(//c/Users/Thanachat_J/Desktop/free-nextjs-admin-dashboard-main/**)",
-      "Bash(npx create-next-app@latest:*)"
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(del appadminpage.tsx)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []
