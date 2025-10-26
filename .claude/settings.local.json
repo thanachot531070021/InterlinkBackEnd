@@ -22,7 +22,9 @@
       "Bash(timeout 5 npm run start:dev)",
       "WebFetch(domain:localhost)",
       "Bash(npx kill-port:*)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Read(//c/Users/Thanachat_J/Desktop/free-nextjs-admin-dashboard-main/**)",
+      "Bash(npx create-next-app@latest:*)"
     ],
     "deny": [],
     "ask": []
